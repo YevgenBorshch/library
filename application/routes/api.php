@@ -1,6 +1,8 @@
 <?php
 
-use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Auth\RegistrationController;
+use App\Http\Controllers\Api\Author\AuthorStoreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -15,8 +17,12 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::prefix('/auth')->group(function () {
-    Route::post('/login', [AuthController::class, 'login']);
-    Route::post('/register', [AuthController::class, 'register']);
+    Route::post('/login', [LoginController::class, '__invoke']);
+    Route::post('/register', [RegistrationController::class, '__invoke']);
+});
+
+Route::prefix('/author')->group(function () {
+    Route::post('/store', [AuthorStoreController::class, '__invoke']);
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
