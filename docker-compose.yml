@@ -41,6 +41,8 @@ services:
       MYSQL_ROOT_PASSWORD: 'password'
       MYSQL_DATABASE: 'app'
     image: library/mysql:5.7.33
+    ports:
+      - "3306:3306"
     networks:
       - app-network
     restart: always
