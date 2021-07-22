@@ -8,7 +8,7 @@ use App\Exceptions\ApiAuthException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
 use App\Repositories\Interfaces\UserRepositoryInterface;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Hash;
 
 class LoginController extends Controller
@@ -30,10 +30,10 @@ class LoginController extends Controller
 
     /**
      * @param LoginRequest $request
-     * @return Response
+     * @return JsonResponse
      * @throws ApiAuthException
      */
-    public function __invoke(LoginRequest $request): Response
+    public function __invoke(LoginRequest $request): JsonResponse
     {
         $credentials = $request->validated();
         $user = $this->userRepository->getUserByColumn('email', $credentials['email']);
@@ -44,9 +44,9 @@ class LoginController extends Controller
             );
         }
 
-        return response([
+        return response()->json([
             'user' => $user,
             'token' => $user->createToken('Token')->accessToken
-        ], 201);
+        ], 200);
     }
 }

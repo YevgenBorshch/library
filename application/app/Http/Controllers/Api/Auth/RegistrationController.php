@@ -8,8 +8,7 @@ use App\Exceptions\ApiAuthException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\RegisterRequest;
 use App\Repositories\Interfaces\UserRepositoryInterface;
-use Exception;
-use Illuminate\Http\Response;
+use Illuminate\Http\JsonResponse;
 
 class RegistrationController extends Controller
 {
@@ -29,24 +28,20 @@ class RegistrationController extends Controller
 
     /**
      * @param RegisterRequest $request
-     * @return Response
+     * @return JsonResponse
      * @throws ApiAuthException
      */
-    public function __invoke(RegisterRequest $request): Response
+    public function __invoke(RegisterRequest $request): JsonResponse
     {
         $credentials = $request->validated();
-        try {
-            $user = $this->userRepository->store($credentials);
+        $user = $this->userRepository->store($credentials);
 
-            return response([
-                'user' => $user,
-                'token' => $user->createToken('Token')->accessToken
-            ], 201);
-
-        } catch (Exception $e) {
+        if (!$user) {
             throw new ApiAuthException(
                 $this->filterErrorMessage('Class: ' . __CLASS__ . '; Line: ' . __LINE__ . '; ' . __('auth.exception.create'))
             );
         }
+
+        return response()->json(['user' => $user], 201);
     }
 }
