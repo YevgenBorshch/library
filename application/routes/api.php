@@ -17,7 +17,7 @@ Route::middleware('auth:api')->group(function () {
 
     // Author
     Route::prefix('/author')->group(function () {
-        Route::get('/list', [AuthorListController::class, '__invoke'])->name('author.list');
+        Route::post('/list', [AuthorListController::class, '__invoke'])->name('author.list');
         Route::post('/store', [AuthorStoreController::class, '__invoke'])->name('author.store');
     });
 
