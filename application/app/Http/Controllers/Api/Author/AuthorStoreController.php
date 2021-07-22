@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Api\Author;
 
 
+use App\Exceptions\ApiArgumentException;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Author\StoreRequest;
 use App\Repositories\Interfaces\AuthorRepositoryInterface;
@@ -31,17 +32,24 @@ class AuthorStoreController extends Controller
     /**
      * @param Request $request
      * @return JsonResponse
+     * @throws ApiArgumentException
      * @throws ValidationException
      */
     public function __invoke(Request $request): JsonResponse
     {
         $author = Validator::make(
-            json_decode($request->getContent(), true),
+            $request->all(),
             (new StoreRequest())->rules()
-        )->validated();
+        );
+
+        if ($author->fails()) {
+            throw new ApiArgumentException(
+                $this->filterErrorMessage('Class: ' . __CLASS__ . '; Line: ' . __LINE__ . '; ' . __('api.arguments.bad'))
+            );
+        }
 
         return response()->json([
-            'author' => $this->authorRepository->store($author)
+            'author' => $this->authorRepository->store($author->validated())
         ], 202);
     }
 }
