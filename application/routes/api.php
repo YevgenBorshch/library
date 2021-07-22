@@ -9,16 +9,16 @@ use Illuminate\Support\Facades\Route;
 
 // Auth
 Route::prefix('/auth')->group(function () {
-    Route::post('/login', [LoginController::class, '__invoke']);
-    Route::post('/register', [RegistrationController::class, '__invoke']);
+    Route::post('/login', [LoginController::class, '__invoke'])->name('auth.login');
+    Route::post('/register', [RegistrationController::class, '__invoke'])->name('auth.register');
 });
 
 Route::middleware('auth:api')->group(function () {
 
     // Author
     Route::prefix('/author')->group(function () {
-        Route::get('/list', [AuthorListController::class, '__invoke']);
-        Route::post('/store', [AuthorStoreController::class, '__invoke']);
+        Route::get('/list', [AuthorListController::class, '__invoke'])->name('author.list');
+        Route::post('/store', [AuthorStoreController::class, '__invoke'])->name('author.store');
     });
 
 });
