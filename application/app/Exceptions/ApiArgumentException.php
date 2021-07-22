@@ -7,7 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Log;
 
-class ApiAuthException extends Exception
+class ApiArgumentException extends Exception
 {
     /**
      * @var string
