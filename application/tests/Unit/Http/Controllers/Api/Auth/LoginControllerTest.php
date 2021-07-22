@@ -12,7 +12,7 @@ class LoginControllerTest extends TestCase
     {
         $user = User::factory()->create();
 
-        $response = $this->post(config('app.url') . '/api/v1/auth/login', [
+        $response = $this->post(route('auth.login'), [
             "email" => $user->email,
             "password" => "password",
         ], [

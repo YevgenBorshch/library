@@ -11,7 +11,7 @@ class RegistrationControllerTest extends TestCase
     {
         $user = User::factory()->make();
 
-        $response = $this->post(config('app.url') . '/api/v1/auth/register', [
+        $response = $this->post(route('auth.register'), [
             "name" => $user->name,
             "email" => $user->email,
             "password" => $user->password,
