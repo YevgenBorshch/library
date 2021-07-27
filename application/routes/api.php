@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\Author\AuthorGetController;
 use App\Http\Controllers\Api\Author\AuthorListController;
 use App\Http\Controllers\Api\Author\AuthorStoreController;
 use App\Http\Controllers\Api\Author\AuthorUpdateController;
+use App\Http\Controllers\Api\Category\CategoryStoreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -25,6 +26,13 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/update', [AuthorUpdateController::class, '__invoke'])->name('author.update');
     });
 
+    // Category
+    Route::prefix('/category')->group(function () {
+//        Route::get('/list', [CategoryListController::class, '__invoke'])->name('category.list');
+        Route::post('/store', [CategoryStoreController::class, '__invoke'])->name('category.store');
+//        Route::get('/get/{author}', [CategoryGetController::class, '__invoke'])->name('category.get');
+//        Route::post('/update', [CategoryUpdateController::class, '__invoke'])->name('category.update');
+    });
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
