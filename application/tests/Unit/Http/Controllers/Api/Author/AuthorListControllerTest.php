@@ -18,7 +18,7 @@ class AuthorListControllerTest extends TestCase
         $this->token = User::factory()->create()->createToken('list')->accessToken;
     }
 
-    public function testGetListValid(): void
+    public function testGetAuthorListValid(): void
     {
         $response = $this->getJson(route("author.list", [
             'perPage' => 3,
@@ -55,7 +55,7 @@ class AuthorListControllerTest extends TestCase
     /**
      * @dataProvider perPageProviderCase
      */
-    public function testGetListWithPerPageInvalid(int $perPage): void
+    public function testGetAuthorListWithPerPageInvalid(int $perPage): void
     {
         $response = $this->getJson(route('author.list', [
             'perPage' => $perPage,
@@ -72,7 +72,7 @@ class AuthorListControllerTest extends TestCase
         $this->assertArrayHasKey('message', $content);
     }
 
-    public function testGetListWithoutPerPage(): void
+    public function testGetAuthorListWithoutPerPage(): void
     {
         $response = $this->getJson(route('author.list', [
             'orderBy' => "desc"
@@ -94,7 +94,7 @@ class AuthorListControllerTest extends TestCase
         $this->assertCount(10, $content['authors']['list']);
     }
 
-    public function testGetListWithoutOrderBy(): void
+    public function testGetAuthorListWithoutOrderBy(): void
     {
         $response = $this->getJson(route('author.list', [
             'perPage' => 1,
@@ -117,7 +117,7 @@ class AuthorListControllerTest extends TestCase
         $this->assertCount(1, $content['authors']['list']);
     }
 
-    public function testGetListWithCurrentPageInvalid(): void
+    public function testGetAuthorListWithCurrentPageInvalid(): void
     {
         $response = $this->getJson(route('author.list', [
             'perPage' => 1,

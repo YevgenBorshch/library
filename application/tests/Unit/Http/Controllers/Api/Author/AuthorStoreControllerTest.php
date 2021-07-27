@@ -27,7 +27,7 @@ class AuthorStoreControllerTest extends TestCase
         $this->author = Author::factory()->create();
     }
 
-    public function testStoreValid(): void
+    public function testAuthorStoreValid(): void
     {
         $response = $this->postJson(route('author.store'), [
             'firstname' => $this->author->firstname,
@@ -44,7 +44,7 @@ class AuthorStoreControllerTest extends TestCase
         $this->assertEquals($content['author']['lastname'], $this->author->lastname);
     }
 
-    public function testStoreWithoutFirstname(): void
+    public function testAuthorStoreWithoutFirstname(): void
     {
         $response = $this->postJson(route('author.store'), [
             'lastname' => $this->author->lastname

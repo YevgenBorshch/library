@@ -29,7 +29,7 @@ class AuthorUpdateControllerTest extends TestCase
         $this->token = User::factory()->create()->createToken('list')->accessToken;
     }
 
-    public function testUpdateAuthorWithValidData(): void
+    public function testAuthorUpdateWithValidData(): void
     {
         $response = $this->postJson(route("author.update"), [
             'id' => $this->author->id,
@@ -51,7 +51,7 @@ class AuthorUpdateControllerTest extends TestCase
         $this->assertEquals($this->author->lastname . 'Test', $author->lastname);
     }
 
-    public function testUpdateAuthorWithInvalidId()
+    public function testAuthorUpdateWithInvalidId()
     {
         $response = $this->postJson(route("author.update"), [
             'id' => 100500,

@@ -19,7 +19,7 @@ class AuthorGetControllerTest extends TestCase
         $this->token = User::factory()->create()->createToken('list')->accessToken;
     }
 
-    public function testGetAuthorValid(): void
+    public function testAuthorGetValid(): void
     {
         $response = $this->getJson(route("author.get", [
             'author' => 1,
@@ -39,7 +39,7 @@ class AuthorGetControllerTest extends TestCase
         $this->assertCount(5, $content['author']);
     }
 
-    public function testGetAuthorWithIdInvalid(): void
+    public function testAuthorGetWithIdInvalid(): void
     {
         $response = $this->getJson(route("author.get", [
             'author' => 100500,
