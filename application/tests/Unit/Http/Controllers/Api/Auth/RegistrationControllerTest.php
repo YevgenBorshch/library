@@ -12,10 +12,10 @@ class RegistrationControllerTest extends TestCase
         $user = User::factory()->make();
 
         $response = $this->post(route('auth.register'), [
-            "name" => $user->name,
-            "email" => $user->email,
-            "password" => $user->password,
-            "password_confirmation" => $user->password
+            'name' => $user->name,
+            'email' => $user->email,
+            'password' => $user->password,
+            'password_confirmation' => $user->password
         ], [
             'Accept' => 'application/json',
         ]);

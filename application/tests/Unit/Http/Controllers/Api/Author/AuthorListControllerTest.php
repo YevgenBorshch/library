@@ -21,8 +21,8 @@ class AuthorListControllerTest extends TestCase
     public function testGetListValid(): void
     {
         $response = $this->getJson(route("author.list", [
-            "perPage" => 3,
-            "orderBy" => "desc"
+            'perPage' => 3,
+            'orderBy' => "desc"
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
@@ -58,8 +58,8 @@ class AuthorListControllerTest extends TestCase
     public function testGetListWithPerPageInvalid(int $perPage): void
     {
         $response = $this->getJson(route('author.list', [
-            "perPage" => $perPage,
-            "orderBy" => "desc"
+            'perPage' => $perPage,
+            'orderBy' => "desc"
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
@@ -75,7 +75,7 @@ class AuthorListControllerTest extends TestCase
     public function testGetListWithoutPerPage(): void
     {
         $response = $this->getJson(route('author.list', [
-            "orderBy" => "desc"
+            'orderBy' => "desc"
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
@@ -97,7 +97,7 @@ class AuthorListControllerTest extends TestCase
     public function testGetListWithoutOrderBy(): void
     {
         $response = $this->getJson(route('author.list', [
-            "perPage" => 1,
+            'perPage' => 1,
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
@@ -120,8 +120,8 @@ class AuthorListControllerTest extends TestCase
     public function testGetListWithCurrentPageInvalid(): void
     {
         $response = $this->getJson(route('author.list', [
-            "perPage" => 1,
-            "currentPage" => 100500
+            'perPage' => 1,
+            'currentPage' => 100500
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token

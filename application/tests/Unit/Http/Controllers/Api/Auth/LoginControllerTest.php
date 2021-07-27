@@ -13,8 +13,8 @@ class LoginControllerTest extends TestCase
         $user = User::factory()->create();
 
         $response = $this->post(route('auth.login'), [
-            "email" => $user->email,
-            "password" => "password",
+            'email' => $user->email,
+            'password' => "password",
         ], [
             'Accept' => 'application/json',
         ]);
