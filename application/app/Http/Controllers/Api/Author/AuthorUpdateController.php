@@ -6,15 +6,16 @@ namespace App\Http\Controllers\Api\Author;
 
 use App\Exceptions\ApiArgumentException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Author\StoreRequest;
+use App\Http\Requests\Author\UpdateRequest;
 use App\Repositories\Interfaces\AuthorRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 
-class AuthorStoreController extends Controller
+class AuthorUpdateController extends Controller
 {
+
     /**
      * @var AuthorRepositoryInterface
      */
@@ -39,7 +40,7 @@ class AuthorStoreController extends Controller
     {
         $author = Validator::make(
             json_decode($request->getContent(), true),
-            (new StoreRequest())->rules()
+            (new UpdateRequest())->rules()
         );
 
         if ($author->fails()) {
@@ -49,7 +50,7 @@ class AuthorStoreController extends Controller
         }
 
         return response()->json([
-            'author' => $this->authorRepository->store($author->validated())
+            'result' => $this->authorRepository->update($author->validated())
         ], 202);
     }
 }
