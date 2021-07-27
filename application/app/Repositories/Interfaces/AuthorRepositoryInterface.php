@@ -6,6 +6,7 @@ namespace App\Repositories\Interfaces;
 
 use App\Models\Author;
 use Illuminate\Pagination\LengthAwarePaginator;
+use Symfony\Component\HttpFoundation\Request;
 
 interface AuthorRepositoryInterface
 {
@@ -16,9 +17,8 @@ interface AuthorRepositoryInterface
     public function store(array $author): Author;
 
     /**
-     * @param int $perPage
-     * @param string $order
-     * @return LengthAwarePaginator
+     * @param Request $request
+     * @return mixed
      */
-    public function list(int $perPage, string $order): LengthAwarePaginator;
+    public function list(Request $request);
 }

@@ -5,9 +5,7 @@ namespace App\Http\Controllers\Api\Author;
 
 
 use App\DTO\ListDTO;
-use App\Exceptions\ApiArgumentException;
 use App\Http\Controllers\Controller;
-use App\Models\Author;
 use App\Repositories\Interfaces\AuthorRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,28 +29,17 @@ class AuthorListController extends Controller
     /**
      * @param Request $request
      * @return JsonResponse
-     * @throws ApiArgumentException
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $request = json_decode($request->getContent(), true);
-        $perPage = $request['perPage'] ?? 10;
-        $orderBy = $request['orderBy'] ?? 'desc';
-
-        if (!$perPage || $perPage < 0 || !Author::validateOrder($orderBy)) {
-            throw new ApiArgumentException(
-                $this->filterErrorMessage('Class: ' . __CLASS__ . '; Line: ' . __LINE__ . '; ' . __('api.arguments.bad'))
-            );
-        }
-
-        $authors = $this->authorRepository->list($perPage, $orderBy);
+        $authors = $this->authorRepository->list($request);
 
         $result = new ListDTO(
             $authors->currentPage(),
             $authors->perPage(),
             $authors->total(),
             $authors->lastPage(),
-            $orderBy,
+            $request->get('orderBy', 'desc'),
             $authors->items(),
         );
 
