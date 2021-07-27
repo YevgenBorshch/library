@@ -4,10 +4,16 @@
 namespace App\Repositories\Eloquent;
 
 
+use App\Traits\CheckEnvironment;
 use Illuminate\Database\Eloquent\Model;
 
 class BaseRepository
 {
+    /**
+     * Trait filter error message for prod environment
+     */
+    use CheckEnvironment;
+    
     /**
      * @var Model
      */

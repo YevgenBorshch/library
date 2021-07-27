@@ -7,15 +7,19 @@ namespace App\Repositories\Eloquent;
 use App\Exceptions\ApiArgumentException;
 use App\Models\Author;
 use App\Repositories\Interfaces\AuthorRepositoryInterface;
-use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
 
-/**
- * @method filterErrorMessage(string $string)
- */
-class AuthorRepository implements AuthorRepositoryInterface
+class AuthorRepository extends BaseRepository implements AuthorRepositoryInterface
 {
+    /**
+     * AuthorRepository constructor.
+     */
+    public function __construct()
+    {
+        parent::__construct(Author::class);
+    }
+
     /**
      * @param array $author
      * @return Author
@@ -23,6 +27,24 @@ class AuthorRepository implements AuthorRepositoryInterface
     public function store(array $author): Author
     {
         return Author::create($author);
+    }
+
+    /**
+     * @param array $author
+     * @return bool
+     * @throws ApiArgumentException
+     */
+    public function update(array $author): bool
+    {
+        $authorExist = Author::find($author['id']);
+
+        if (!$authorExist) {
+            throw new ApiArgumentException(
+                $this->filterErrorMessage('Class: ' . __CLASS__ . '; Line: ' . __LINE__ . '; ' . __('api.id.doesntExist'))
+            );
+        }
+
+        return $authorExist->update($author);
     }
 
     /**
