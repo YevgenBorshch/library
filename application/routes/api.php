@@ -2,8 +2,10 @@
 
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegistrationController;
+use App\Http\Controllers\Api\Author\AuthorGetController;
 use App\Http\Controllers\Api\Author\AuthorListController;
 use App\Http\Controllers\Api\Author\AuthorStoreController;
+use App\Http\Controllers\Api\Author\AuthorUpdateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,6 +21,8 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('/author')->group(function () {
         Route::get('/list', [AuthorListController::class, '__invoke'])->name('author.list');
         Route::post('/store', [AuthorStoreController::class, '__invoke'])->name('author.store');
+        Route::get('/get/{author}', [AuthorGetController::class, '__invoke'])->name('author.get');
+        Route::post('/update', [AuthorUpdateController::class, '__invoke'])->name('author.update');
     });
 
 });
