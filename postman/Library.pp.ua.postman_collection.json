@@ -115,7 +115,143 @@
 		},
 		{
 			"name": "authors",
-			"item": []
+			"item": [
+				{
+					"name": "get",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/author/get/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"author",
+								"get",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\":\"Test1\",\n    \"lastname\":\"Testovich1\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/author/store",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"author",
+								"store"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/author/list?currentPage=1&perPage=5&orderBy=asc",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"author",
+								"list"
+							],
+							"query": [
+								{
+									"key": "currentPage",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "5"
+								},
+								{
+									"key": "orderBy",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\":1,\n    \"firstname\": \"Test\",\n    \"lastname\":\"Testovich\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/author/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"author",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		},
 		{
 			"name": "queue",
@@ -124,6 +260,43 @@
 		{
 			"name": "import",
 			"item": []
+		},
+		{
+			"name": "category",
+			"item": [
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"Test\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/category/store",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"category",
+								"store"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	]
 }
