@@ -15,7 +15,6 @@ use Illuminate\Validation\ValidationException;
 
 class AuthorUpdateController extends Controller
 {
-
     /**
      * @var AuthorRepositoryInterface
      */

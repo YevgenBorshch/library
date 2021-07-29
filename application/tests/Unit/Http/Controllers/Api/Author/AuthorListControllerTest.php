@@ -32,13 +32,7 @@ class AuthorListControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertArrayHasKey('currentPage', $content['authors']);
-        $this->assertArrayHasKey('perPage', $content['authors']);
-        $this->assertArrayHasKey('total', $content['authors']);
-        $this->assertArrayHasKey('lastPage', $content['authors']);
-        $this->assertArrayHasKey('orderBy', $content['authors']);
-        $this->assertArrayHasKey('list', $content['authors']);
-        $this->assertIsArray($content['authors']['list']);
+        $this->assertFields($content['authors']);
     }
 
     /**
@@ -84,13 +78,7 @@ class AuthorListControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertArrayHasKey('currentPage', $content['authors']);
-        $this->assertArrayHasKey('perPage', $content['authors']);
-        $this->assertArrayHasKey('total', $content['authors']);
-        $this->assertArrayHasKey('lastPage', $content['authors']);
-        $this->assertArrayHasKey('orderBy', $content['authors']);
-        $this->assertArrayHasKey('list', $content['authors']);
-        $this->assertIsArray($content['authors']['list']);
+        $this->assertFields($content['authors']);
         $this->assertCount(10, $content['authors']['list']);
     }
 
@@ -106,14 +94,7 @@ class AuthorListControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertArrayHasKey('currentPage', $content['authors']);
-        $this->assertArrayHasKey('perPage', $content['authors']);
-        $this->assertArrayHasKey('total', $content['authors']);
-        $this->assertArrayHasKey('lastPage', $content['authors']);
-        $this->assertArrayHasKey('orderBy', $content['authors']);
-        $this->assertEquals('desc', $content['authors']['orderBy']);
-        $this->assertArrayHasKey('list', $content['authors']);
-        $this->assertIsArray($content['authors']['list']);
+        $this->assertFields($content['authors']);
         $this->assertCount(1, $content['authors']['list']);
     }
 
@@ -130,14 +111,19 @@ class AuthorListControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertArrayHasKey('currentPage', $content['authors']);
-        $this->assertArrayHasKey('perPage', $content['authors']);
-        $this->assertArrayHasKey('total', $content['authors']);
-        $this->assertArrayHasKey('lastPage', $content['authors']);
-        $this->assertArrayHasKey('orderBy', $content['authors']);
-        $this->assertEquals('desc', $content['authors']['orderBy']);
-        $this->assertArrayHasKey('list', $content['authors']);
-        $this->assertIsArray($content['authors']['list']);
+        $this->assertFields($content['authors']);
         $this->assertCount(0, $content['authors']['list']);
+    }
+
+    protected function assertFields(array $authors): void
+    {
+        $this->assertArrayHasKey('currentPage', $authors);
+        $this->assertArrayHasKey('perPage', $authors);
+        $this->assertArrayHasKey('total', $authors);
+        $this->assertArrayHasKey('lastPage', $authors);
+        $this->assertArrayHasKey('orderBy', $authors);
+        $this->assertEquals('desc', $authors['orderBy']);
+        $this->assertArrayHasKey('list', $authors);
+        $this->assertIsArray($authors['list']);
     }
 }

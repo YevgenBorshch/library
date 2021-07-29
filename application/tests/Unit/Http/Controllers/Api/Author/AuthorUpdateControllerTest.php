@@ -5,12 +5,10 @@ namespace Tests\Unit\Http\Controllers\Api\Author;
 
 use App\Models\Author;
 use App\Models\User;
-use Illuminate\Support\Facades\Auth;
 use Tests\TestCase;
 
 class AuthorUpdateControllerTest extends TestCase
 {
-
     /**
      * @var string
      */
