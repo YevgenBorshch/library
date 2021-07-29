@@ -8,4 +8,5 @@ return [
     'firstname.min' => 'Field firstname should be more than :min symbols',
     'lastname.required' => 'Field lastname is required',
     'lastname.min' => 'Field lastname should be more than :min symbols',
+    'title.min' => 'Field title should be more than :min symbols',
 ];
