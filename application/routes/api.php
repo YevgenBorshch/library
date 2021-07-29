@@ -6,7 +6,10 @@ use App\Http\Controllers\Api\Author\AuthorGetController;
 use App\Http\Controllers\Api\Author\AuthorListController;
 use App\Http\Controllers\Api\Author\AuthorStoreController;
 use App\Http\Controllers\Api\Author\AuthorUpdateController;
+use App\Http\Controllers\Api\Category\CategoryGetController;
+use App\Http\Controllers\Api\Category\CategoryListController;
 use App\Http\Controllers\Api\Category\CategoryStoreController;
+use App\Http\Controllers\Api\Category\CategoryUpdateController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,10 +31,10 @@ Route::middleware('auth:api')->group(function () {
 
     // Category
     Route::prefix('/category')->group(function () {
-//        Route::get('/list', [CategoryListController::class, '__invoke'])->name('category.list');
+        Route::get('/list', [CategoryListController::class, '__invoke'])->name('category.list');
         Route::post('/store', [CategoryStoreController::class, '__invoke'])->name('category.store');
-//        Route::get('/get/{author}', [CategoryGetController::class, '__invoke'])->name('category.get');
-//        Route::post('/update', [CategoryUpdateController::class, '__invoke'])->name('category.update');
+        Route::get('/get/{category}', [CategoryGetController::class, '__invoke'])->name('category.get');
+        Route::post('/update', [CategoryUpdateController::class, '__invoke'])->name('category.update');
     });
 });
 
