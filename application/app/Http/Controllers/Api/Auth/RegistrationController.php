@@ -38,7 +38,7 @@ class RegistrationController extends Controller
 
         if (!$user) {
             throw new ApiAuthException(
-                $this->filterErrorMessage('Class: ' . __CLASS__ . '; Line: ' . __LINE__ . '; ' . __('auth.exception.create'))
+                $this->filterErrorMessage(__CLASS__, __LINE__, $request->getContent())
             );
         }
 

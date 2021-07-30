@@ -40,7 +40,7 @@ class LoginController extends Controller
 
         if(!$user || !Hash::check($credentials['password'], $user->password)) {
             throw new ApiAuthException(
-                $this->filterErrorMessage('Class: ' . __CLASS__ . '; Line: ' . __LINE__ . '; ' . __('auth.exception.find'))
+                $this->filterErrorMessage(__CLASS__, __LINE__, $request->getContent())
             );
         }
 
