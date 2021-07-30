@@ -41,7 +41,7 @@ class SeriesStoreController extends Controller
 
         if ($series->fails()) {
             throw new ApiArgumentException(
-                $this->filterErrorMessage('Class: ' . __CLASS__ . '; Line: ' . __LINE__ . '; ' . __('api.arguments.bad') . '; Context: ' . $request->getContent())
+                $this->filterErrorMessage(__CLASS__, __LINE__, $request->getContent())
             );
         }
 
