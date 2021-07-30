@@ -146,38 +146,6 @@
 					"response": []
 				},
 				{
-					"name": "store",
-					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"firstname\":\"Test1\",\n    \"lastname\":\"Testovich1\"\n}"
-						},
-						"url": {
-							"raw": "{{host}}/author/store",
-							"host": [
-								"{{host}}"
-							],
-							"path": [
-								"author",
-								"store"
-							]
-						}
-					},
-					"response": []
-				},
-				{
 					"name": "list",
 					"request": {
 						"auth": {
@@ -214,6 +182,38 @@
 									"key": "orderBy",
 									"value": "asc"
 								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"firstname\":\"Test1\",\n    \"lastname\":\"Testovich1\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/author/store",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"author",
+								"store"
 							]
 						}
 					},
@@ -265,6 +265,77 @@
 			"name": "category",
 			"item": [
 				{
+					"name": "get",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/category/get/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"category",
+								"get",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/category/list?currentPage=1&perPage=5&orderBy=asc",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"category",
+								"list"
+							],
+							"query": [
+								{
+									"key": "currentPage",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "5"
+								},
+								{
+									"key": "orderBy",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "store",
 					"request": {
 						"auth": {
@@ -291,6 +362,318 @@
 							"path": [
 								"category",
 								"store"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\":1,\n    \"title\":\"Testovich\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/category/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"category",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "tag",
+			"item": [
+				{
+					"name": "get",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/tag/get/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tag",
+								"get",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/tag/list?currentPage=1&perPage=5&orderBy=asc",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tag",
+								"list"
+							],
+							"query": [
+								{
+									"key": "currentPage",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "5"
+								},
+								{
+									"key": "orderBy",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"Test2\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/tag/store",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tag",
+								"store"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\":1,\n    \"title\":\"Testovich\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/tag/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"tag",
+								"update"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "series",
+			"item": [
+				{
+					"name": "get",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/series/get/1",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"series",
+								"get",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/series/list?currentPage=1&perPage=5&orderBy=asc",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"series",
+								"list"
+							],
+							"query": [
+								{
+									"key": "currentPage",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "5"
+								},
+								{
+									"key": "orderBy",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"title\":\"Test2\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/series/store",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"series",
+								"store"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "update",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"id\":1,\n    \"title\":\"Testovich\"\n}"
+						},
+						"url": {
+							"raw": "{{host}}/series/update",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"series",
+								"update"
 							]
 						}
 					},
