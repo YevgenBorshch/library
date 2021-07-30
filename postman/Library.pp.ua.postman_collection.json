@@ -10,7 +10,19 @@
 			"name": "auth",
 			"item": [
 				{
-					"name": "Логин",
+					"name": "Авторизация",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var jsonData = JSON.parse(responseBody);",
+									"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
 							"accept": true
@@ -30,12 +42,12 @@
 							"urlencoded": [
 								{
 									"key": "email",
-									"value": "admin@library.pp.ua",
+									"value": "test@example.com",
 									"type": "text"
 								},
 								{
 									"key": "password",
-									"value": "Yebo1013",
+									"value": "testPassword",
 									"type": "text"
 								}
 							]
@@ -246,6 +258,38 @@
 							"path": [
 								"author",
 								"update"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"author_id\":1\n}"
+						},
+						"url": {
+							"raw": "{{host}}/author/remove",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"author",
+								"remove"
 							]
 						}
 					},
