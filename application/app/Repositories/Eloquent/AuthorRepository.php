@@ -26,7 +26,7 @@ class AuthorRepository extends BaseRepository implements AuthorRepositoryInterfa
      */
     public function store(array $author): Author
     {
-        return Author::create($author);
+        return $this->model::create($author);
     }
 
     /**
@@ -68,6 +68,11 @@ class AuthorRepository extends BaseRepository implements AuthorRepositoryInterfa
             return $currentPage;
         });
 
-        return Author::orderBy('id', $orderBy)->paginate($perPage);
+        return $this->model::orderBy('id', $orderBy)->paginate($perPage);
+    }
+
+    public function remove(array $author): bool
+    {
+        return $this->model::find($author['author_id'])->delete();
     }
 }

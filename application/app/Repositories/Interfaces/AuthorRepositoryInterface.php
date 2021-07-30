@@ -26,4 +26,10 @@ interface AuthorRepositoryInterface extends BaseRepositoryInterface
      * @return mixed
      */
     public function list(Request $request);
+
+    /**
+     * @param array $author
+     * @return mixed
+     */
+    public function remove(array $author): bool;
 }

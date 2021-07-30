@@ -1,19 +1,17 @@
 <?php
 
-
 namespace App\Http\Controllers\Api\Author;
-
 
 use App\Exceptions\ApiArgumentException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Author\StoreRequest;
+use App\Http\Requests\Author\RemoveRequest;
 use App\Repositories\Interfaces\AuthorRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Request;
 
-class AuthorStoreController extends Controller
+class AuthorRemoveController extends Controller
 {
     /**
      * @var AuthorRepositoryInterface
@@ -39,7 +37,7 @@ class AuthorStoreController extends Controller
     {
         $author = Validator::make(
             json_decode($request->getContent(), true),
-            (new StoreRequest())->rules()
+            (new RemoveRequest())->rules()
         );
 
         if ($author->fails()) {
@@ -49,7 +47,7 @@ class AuthorStoreController extends Controller
         }
 
         return response()->json([
-            'author' => $this->authorRepository->store($author->validated())
+            'result' => $this->authorRepository->remove($author->validated())
         ], 202);
     }
 }

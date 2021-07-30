@@ -22,7 +22,7 @@ class AuthorGetControllerTest extends TestCase
     public function testAuthorGetValid(): void
     {
         $response = $this->getJson(route("author.get", [
-            'author' => 1,
+            'author' => 2,
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
