@@ -13,7 +13,7 @@ class BaseRepository
      * Trait filter error message for prod environment
      */
     use CheckEnvironment;
-    
+
     /**
      * @var Model
      */

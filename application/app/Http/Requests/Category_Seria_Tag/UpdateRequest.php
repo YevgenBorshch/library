@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\Category_Seria_Tag;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -25,7 +25,7 @@ class UpdateRequest extends FormRequest
     {
         return [
             'id' => 'required',
-            'title' => 'string|min:3',
+            'title' => 'required|string|min:2',
         ];
     }
 

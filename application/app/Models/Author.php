@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
  * @method static create(array $author)
  * @method static paginate(int $perPage)
  * @method static orderBy(string $string, string $order)
+ * @method static find(mixed $id)
  */
 class Author extends AdminModel
 {

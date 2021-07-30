@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Category;
+namespace App\Http\Requests\Category_Seria_Tag;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,7 +24,7 @@ class StoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => 'required|string|min:3',
+            'title' => 'required|string|min:2',
         ];
     }
 }
