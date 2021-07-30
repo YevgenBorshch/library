@@ -16,7 +16,7 @@ class CategoryStoreControllerTest extends TestCase
     protected string $token;
 
     /**
-     * @var Category|Collection|Model
+     * @var Category
      */
     protected $category;
 

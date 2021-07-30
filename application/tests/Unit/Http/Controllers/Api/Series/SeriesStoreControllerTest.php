@@ -18,7 +18,7 @@ class SeriesStoreControllerTest extends TestCase
     protected string $token;
 
     /**
-     * @var Series|Collection|Model
+     * @var Series
      */
     protected $series;
 

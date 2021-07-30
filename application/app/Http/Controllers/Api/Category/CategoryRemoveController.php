@@ -49,7 +49,7 @@ class CategoryRemoveController extends Controller
         }
 
         return response()->json([
-            'result' => $this->categoryRepository->remove($category->validated())
+            'result' => $this->categoryRepository->remove($category->validated()['id'])
         ], 202);
     }
 }

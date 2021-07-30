@@ -17,14 +17,13 @@ class AuthorUpdateControllerTest extends TestCase
     /**
      * @var Author
      */
-    protected Author $author;
+    protected $author;
 
     protected function setUp():void
     {
         parent::setUp();
-        /** @var Author $this */
-        $this->author = Author::factory()->create();
         $this->token = User::factory()->create()->createToken('list')->accessToken;
+        $this->author = Author::factory()->create();
     }
 
     public function testAuthorUpdateWithValidData(): void

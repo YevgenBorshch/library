@@ -17,7 +17,7 @@ class AuthorRemoveControllerTest extends TestCase
     protected string $token;
 
     /**
-     * @var Author|Collection|Model
+     * @var Author
      */
     protected $author;
 

@@ -17,14 +17,13 @@ class SeriesUpdateControllerTest extends TestCase
     /**
      * @var Series
      */
-    protected Series $series;
+    protected $series;
 
     protected function setUp():void
     {
         parent::setUp();
-        /** @var Series $this */
-        $this->series = Series::factory()->create();
         $this->token = User::factory()->create()->createToken('list')->accessToken;
+        $this->series = Series::factory()->create();
     }
 
     public function testSeriesUpdateWithValidData(): void

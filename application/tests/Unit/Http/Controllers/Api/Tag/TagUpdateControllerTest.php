@@ -17,14 +17,13 @@ class TagUpdateControllerTest extends TestCase
     /**
      * @var Tag
      */
-    protected Tag $tag;
+    protected $tag;
 
     protected function setUp():void
     {
         parent::setUp();
-        /** @var Tag $this */
-        $this->tag = Tag::factory()->create();
         $this->token = User::factory()->create()->createToken('list')->accessToken;
+        $this->tag = Tag::factory()->create();
     }
 
     public function testTagUpdateWithValidData(): void

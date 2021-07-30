@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\Author\AuthorStoreController;
 use App\Http\Controllers\Api\Author\AuthorUpdateController;
 use App\Http\Controllers\Api\Category\CategoryGetController;
 use App\Http\Controllers\Api\Category\CategoryListController;
+use App\Http\Controllers\Api\Category\CategoryRemoveController;
 use App\Http\Controllers\Api\Category\CategoryStoreController;
 use App\Http\Controllers\Api\Category\CategoryUpdateController;
 use App\Http\Controllers\Api\Series\SeriesGetController;
@@ -45,6 +46,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/store', [CategoryStoreController::class, '__invoke'])->name('category.store');
         Route::get('/get/{category}', [CategoryGetController::class, '__invoke'])->name('category.get');
         Route::post('/update', [CategoryUpdateController::class, '__invoke'])->name('category.update');
+        Route::post('/remove', [CategoryRemoveController::class, '__invoke'])->name('category.remove');
     });
 
     // Tag

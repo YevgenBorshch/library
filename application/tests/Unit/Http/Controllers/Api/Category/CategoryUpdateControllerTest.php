@@ -17,14 +17,13 @@ class CategoryUpdateControllerTest extends TestCase
     /**
      * @var Category
      */
-    protected Category $category;
+    protected $category;
 
     protected function setUp():void
     {
         parent::setUp();
-        /** @var Category $this */
-        $this->category = Category::factory()->create();
         $this->token = User::factory()->create()->createToken('list')->accessToken;
+        $this->category = Category::factory()->create();
     }
 
     public function testCategoryUpdateWithValidData(): void

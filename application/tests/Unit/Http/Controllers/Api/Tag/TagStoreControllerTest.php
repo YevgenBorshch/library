@@ -17,7 +17,7 @@ class TagStoreControllerTest extends TestCase
     protected string $token;
 
     /**
-     * @var Tag|Collection|Model
+     * @var Tag
      */
     protected $tag;
 

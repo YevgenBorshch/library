@@ -18,15 +18,15 @@ class AuthorUpdateController extends Controller
     /**
      * @var AuthorRepositoryInterface
      */
-    protected AuthorRepositoryInterface $authorRepository;
+    protected AuthorRepositoryInterface $repository;
 
     /**
      * AuthorController constructor.
-     * @param AuthorRepositoryInterface $authorRepository
+     * @param AuthorRepositoryInterface $repository
      */
-    public function __construct(AuthorRepositoryInterface $authorRepository)
+    public function __construct(AuthorRepositoryInterface $repository)
     {
-        $this->authorRepository = $authorRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -49,7 +49,7 @@ class AuthorUpdateController extends Controller
         }
 
         return response()->json([
-            'result' => $this->authorRepository->update($author->validated())
+            'result' => $this->repository->update($author->validated())
         ], 202);
     }
 }
