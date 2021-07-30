@@ -24,7 +24,7 @@ class CategoryStoreControllerTest extends TestCase
     {
         parent::setUp();
         $this->token = User::factory()->create()->createToken('client')->accessToken;
-        $this->category = Category::factory()->create();
+        $this->category = Category::factory()->makeOne();
     }
 
     public function testCategoryStoreValid(): void
@@ -60,7 +60,7 @@ class CategoryStoreControllerTest extends TestCase
     public function testCategoryStoreWithShortTitle(): void
     {
         $response = $this->postJson(route('category.store'), [
-            'title' => '12',
+            'title' => '1',
         ], [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token

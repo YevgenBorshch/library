@@ -26,6 +26,7 @@ class CategoryUpdateControllerTest extends TestCase
         $this->category = Category::factory()->create();
         $this->token = User::factory()->create()->createToken('list')->accessToken;
     }
+
     public function testCategoryUpdateWithValidData(): void
     {
         $response = $this->postJson(route("category.update"), [

@@ -7,7 +7,6 @@ use Tests\TestCase;
 
 class CategoryGetControllerTest extends TestCase
 {
-
     /**
      * @var string
      */
