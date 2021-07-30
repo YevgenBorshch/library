@@ -42,7 +42,7 @@ class CategoryStoreController extends Controller
 
         if ($category->fails()) {
             throw new ApiArgumentException(
-                $this->filterErrorMessage('Class: ' . __CLASS__ . '; Line: ' . __LINE__ . '; ' . __('api.arguments.bad'))
+                $this->filterErrorMessage(__CLASS__, __LINE__, $request->getContent())
             );
         }
 
