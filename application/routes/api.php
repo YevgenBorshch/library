@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegistrationController;
 use App\Http\Controllers\Api\Author\AuthorGetController;
 use App\Http\Controllers\Api\Author\AuthorListController;
+use App\Http\Controllers\Api\Author\AuthorRemoveController;
 use App\Http\Controllers\Api\Author\AuthorStoreController;
 use App\Http\Controllers\Api\Author\AuthorUpdateController;
 use App\Http\Controllers\Api\Category\CategoryGetController;
@@ -35,6 +36,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/store', [AuthorStoreController::class, '__invoke'])->name('author.store');
         Route::get('/get/{author}', [AuthorGetController::class, '__invoke'])->name('author.get');
         Route::post('/update', [AuthorUpdateController::class, '__invoke'])->name('author.update');
+        Route::post('/remove', [AuthorRemoveController::class, '__invoke'])->name('author.remove');
     });
 
     // Category

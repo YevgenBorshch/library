@@ -10,11 +10,17 @@ trait CheckEnvironment
 {
     /**
      * Filter error message for prod environment
-     * @param string $message
+     * @param string $class
+     * @param string $line
+     * @param string $context
      * @return string
      */
-    public static function filterErrorMessage(string $message): string
+    public static function filterErrorMessage(string $class, string $line, string $context): string
     {
-        return (App::environment() !== 'prod') ? $message : 'An internal error. Please look log file';
+        if (App::environment() !== 'prod') {
+            return 'Class: ' . $class . '; Line: ' . $line . '; ' . __('api.arguments.bad') . '; Context: ' . $context;
+        }
+
+        return 'An internal error. Please look log file';
     }
 }

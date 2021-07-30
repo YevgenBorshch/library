@@ -9,4 +9,5 @@ return [
     'lastname.required' => 'Field lastname is required',
     'lastname.min' => 'Field lastname should be more than :min symbols',
     'title.min' => 'Field title should be more than :min symbols',
+    'author_id.required' => 'Field author_id is required',
 ];
