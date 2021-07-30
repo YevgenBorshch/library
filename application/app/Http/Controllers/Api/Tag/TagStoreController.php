@@ -6,7 +6,7 @@ namespace App\Http\Controllers\Api\Tag;
 
 use App\Exceptions\ApiArgumentException;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Category_Seria_Tag\StoreRequest;
+use App\Http\Requests\Category_Series_Tag\StoreRequest;
 use App\Repositories\Interfaces\TagRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Validator;

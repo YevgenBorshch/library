@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Category_Seria_Tag;
+namespace App\Http\Requests\Category_Series_Tag;
 
 use Illuminate\Foundation\Http\FormRequest;
 
