@@ -18,7 +18,7 @@ class TagListControllerTest extends TestCase
         $this->token = User::factory()->create()->createToken('list')->accessToken;
     }
 
-    public function testGetTagListValid(): void
+    public function testTagListValid(): void
     {
         $response = $this->getJson(route("tag.list", [
             'perPage' => 3,
@@ -31,7 +31,7 @@ class TagListControllerTest extends TestCase
         $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
 
-        $this->assertFields($content['tags']);
+        $this->assertFields($content['data']);
     }
 
     /**
@@ -48,7 +48,7 @@ class TagListControllerTest extends TestCase
     /**
      * @dataProvider perPageProviderCase
      */
-    public function testGetTagListWithPerPageInvalid(int $perPage): void
+    public function testTagListWithPerPageInvalid(int $perPage): void
     {
         $response = $this->getJson(route('tag.list', [
             'perPage' => $perPage,
@@ -65,7 +65,7 @@ class TagListControllerTest extends TestCase
         $this->assertArrayHasKey('message', $content);
     }
 
-    public function testGetTagListWithoutPerPage(): void
+    public function testTagListWithoutPerPage(): void
     {
         $response = $this->getJson(route('tag.list', [
             'orderBy' => "desc"
@@ -77,11 +77,11 @@ class TagListControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertFields($content['tags']);
-        $this->assertCount(10, $content['tags']['list']);
+        $this->assertFields($content['data']);
+        $this->assertCount(10, $content['data']['list']);
     }
 
-    public function testGetTagListWithoutOrderBy(): void
+    public function testTagListWithoutOrderBy(): void
     {
         $response = $this->getJson(route('tag.list', [
             'perPage' => 1,
@@ -93,11 +93,11 @@ class TagListControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertFields($content['tags']);
-        $this->assertCount(1, $content['tags']['list']);
+        $this->assertFields($content['data']);
+        $this->assertCount(1, $content['data']['list']);
     }
 
-    public function testGetTagListWithCurrentPageInvalid(): void
+    public function testTagListWithCurrentPageInvalid(): void
     {
         $response = $this->getJson(route('tag.list', [
             'perPage' => 1,
@@ -110,8 +110,8 @@ class TagListControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertFields($content['tags']);
-        $this->assertCount(0, $content['tags']['list']);
+        $this->assertFields($content['data']);
+        $this->assertCount(0, $content['data']['list']);
     }
 
     protected function assertFields(array $tags): void

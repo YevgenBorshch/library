@@ -40,7 +40,7 @@ class TagStoreControllerTest extends TestCase
         $response->assertStatus(202);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertEquals($content['tag']['title'], $this->tag->title);
+        $this->assertEquals($content['result']['title'], $this->tag->title);
     }
 
     public function testTagStoreWithEmptyTitle(): void

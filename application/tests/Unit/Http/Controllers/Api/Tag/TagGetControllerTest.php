@@ -3,6 +3,7 @@
 namespace Tests\Unit\Http\Controllers\Api\Tag;
 
 
+use App\Models\Tag;
 use App\Models\User;
 use Tests\TestCase;
 
@@ -13,16 +14,22 @@ class TagGetControllerTest extends TestCase
      */
     protected string $token;
 
-    protected function setUp():void
+    /**
+     * @var Tag
+     */
+    protected $tag;
+
+    protected function setUp(): void
     {
         parent::setUp();
-        $this->token = User::factory()->create()->createToken('list')->accessToken;
+        $this->token = User::factory()->create()->createToken('client')->accessToken;
+        $this->tag = Tag::factory()->create();
     }
 
     public function testTagGetValid(): void
     {
         $response = $this->getJson(route("tag.get", [
-            'tag' => 1,
+            'tag' => $this->tag->id,
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token

@@ -18,15 +18,15 @@ class TagStoreController extends Controller
     /**
      * @var TagRepositoryInterface
      */
-    protected TagRepositoryInterface $tagRepository;
+    protected TagRepositoryInterface $repository;
 
     /**
      * TagStoreController constructor.
-     * @param TagRepositoryInterface $tagRepository
+     * @param TagRepositoryInterface $repository
      */
-    public function __construct(TagRepositoryInterface $tagRepository)
+    public function __construct(TagRepositoryInterface $repository)
     {
-        $this->tagRepository = $tagRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -37,19 +37,6 @@ class TagStoreController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $tag = Validator::make(
-            json_decode($request->getContent(), true),
-            (new StoreRequest())->rules()
-        );
-
-        if ($tag->fails()) {
-            throw new ApiArgumentException(
-                $this->filterErrorMessage(__CLASS__, __LINE__, $request->getContent())
-            );
-        }
-
-        return response()->json([
-            'tag' => $this->tagRepository->store($tag->validated())
-        ], 202);
+        return $this->store($request, $this->repository);
     }
 }

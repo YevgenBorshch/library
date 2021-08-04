@@ -1,15 +1,13 @@
 <?php
 
-
 namespace App\Http\Controllers\Api\Tag;
-
 
 use App\Http\Controllers\Controller;
 use App\Repositories\Interfaces\TagRepositoryInterface;
-use Illuminate\Http\JsonResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class TagListController extends Controller
+class TagRemoveController extends Controller
 {
     /**
      * @var TagRepositoryInterface
@@ -26,6 +24,6 @@ class TagListController extends Controller
 
     public function __invoke(Request $request): JsonResponse
     {
-        return $this->list($request, $this->repository);
+        return $this->remove($request, $this->repository);
     }
 }
