@@ -3,11 +3,13 @@
 namespace App\Providers;
 
 use App\Repositories\Eloquent\AuthorRepository;
+use App\Repositories\Eloquent\BookRepository;
 use App\Repositories\Eloquent\CategoryRepository;
 use App\Repositories\Eloquent\SeriesRepository;
 use App\Repositories\Eloquent\TagRepository;
 use App\Repositories\Eloquent\UserRepository;
 use App\Repositories\Interfaces\AuthorRepositoryInterface;
+use App\Repositories\Interfaces\BookRepositoryInterface;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use App\Repositories\Interfaces\SeriesRepositoryInterface;
 use App\Repositories\Interfaces\TagRepositoryInterface;
@@ -24,6 +26,7 @@ class RepositoryServiceProvider extends ServiceProvider
     public function register()
     {
         $this->app->bind(AuthorRepositoryInterface::class, AuthorRepository::class);
+        $this->app->bind(BookRepositoryInterface::class, BookRepository::class);
         $this->app->bind(CategoryRepositoryInterface::class, CategoryRepository::class);
         $this->app->bind(SeriesRepositoryInterface::class, SeriesRepository::class);
         $this->app->bind(TagRepositoryInterface::class, TagRepository::class);

@@ -3,7 +3,14 @@ ENV TZ 'Europe/Kiev'
 
 # Install system dependencies
 RUN apt-get update && apt-get install -y libmcrypt-dev \
-    sqlite3 libsqlite3-dev libonig-dev zip unzip libmagickwand-dev git iputils-ping --no-install-recommends
+    sqlite3 libsqlite3-dev libonig-dev zip unzip libmagickwand-dev git iputils-ping --no-install-recommends \
+    && docker-php-ext-configure intl \
+    && docker-php-ext-install intl \
+    && docker-php-ext-install xml \
+    && pecl install imagick \
+    && docker-php-ext-enable imagick \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug
 RUN docker-php-ext-install mbstring \
     && docker-php-ext-enable mbstring \
     && docker-php-ext-configure gd \
