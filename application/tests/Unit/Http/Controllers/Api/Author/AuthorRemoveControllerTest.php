@@ -5,8 +5,6 @@ namespace Tests\Unit\Http\Controllers\Api\Author;
 
 use App\Models\Author;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Database\Eloquent\Model;
 use Tests\TestCase;
 
 class AuthorRemoveControllerTest extends TestCase
@@ -31,7 +29,7 @@ class AuthorRemoveControllerTest extends TestCase
     public function testAuthorRemoveValid(): void
     {
         $response = $this->postJson(route('author.remove'), [
-            'author_id' => $this->author->id,
+            'id' => $this->author->id,
         ], [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
@@ -58,7 +56,7 @@ class AuthorRemoveControllerTest extends TestCase
     public function testAuthorRemoveWithEmptyId(): void
     {
         $response = $this->postJson(route('author.remove'), [
-            'author_id' => '',
+            'id' => '',
         ], [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token

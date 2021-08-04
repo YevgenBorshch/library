@@ -4,7 +4,6 @@
 namespace App\Http\Controllers\Api\Author;
 
 
-use App\DTO\ListDTO;
 use App\Http\Controllers\Controller;
 use App\Repositories\Interfaces\AuthorRepositoryInterface;
 use Illuminate\Http\JsonResponse;
@@ -15,15 +14,15 @@ class AuthorListController extends Controller
     /**
      * @var AuthorRepositoryInterface
      */
-    protected AuthorRepositoryInterface $authorRepository;
+    protected AuthorRepositoryInterface $repository;
 
     /**
      * AuthorController constructor.
-     * @param AuthorRepositoryInterface $authorRepository
+     * @param AuthorRepositoryInterface $repository
      */
-    public function __construct(AuthorRepositoryInterface $authorRepository)
+    public function __construct(AuthorRepositoryInterface $repository)
     {
-        $this->authorRepository = $authorRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -32,17 +31,6 @@ class AuthorListController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $authors = $this->authorRepository->list($request);
-
-        $result = new ListDTO(
-            $authors->currentPage(),
-            $authors->perPage(),
-            $authors->total(),
-            $authors->lastPage(),
-            $request->get('orderBy', 'desc'),
-            $authors->items(),
-        );
-
-        return response()->json(['authors' => $result]);
+        return $this->list($request, $this->repository);
     }
 }

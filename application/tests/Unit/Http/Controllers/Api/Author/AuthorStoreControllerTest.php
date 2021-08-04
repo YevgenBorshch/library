@@ -24,7 +24,7 @@ class AuthorStoreControllerTest extends TestCase
     {
         parent::setUp();
         $this->token = User::factory()->create()->createToken('client')->accessToken;
-        $this->author = Author::factory()->create();
+        $this->author = Author::factory()->makeOne();
     }
 
     public function testAuthorStoreValid(): void

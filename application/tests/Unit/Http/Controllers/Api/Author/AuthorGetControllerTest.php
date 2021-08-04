@@ -3,6 +3,7 @@
 namespace Tests\Unit\Http\Controllers\Api\Author;
 
 
+use App\Models\Author;
 use App\Models\User;
 use Tests\TestCase;
 
@@ -13,16 +14,22 @@ class AuthorGetControllerTest extends TestCase
      */
     protected string $token;
 
+    /**
+     * @var Author
+     */
+    protected $author;
+
     protected function setUp():void
     {
         parent::setUp();
         $this->token = User::factory()->create()->createToken('list')->accessToken;
+        $this->author = Author::factory()->create();
     }
 
     public function testAuthorGetValid(): void
     {
         $response = $this->getJson(route("author.get", [
-            'author' => 1,
+            'author' => $this->author->id,
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token

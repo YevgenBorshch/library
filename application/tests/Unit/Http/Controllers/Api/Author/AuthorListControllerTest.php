@@ -18,11 +18,11 @@ class AuthorListControllerTest extends TestCase
         $this->token = User::factory()->create()->createToken('list')->accessToken;
     }
 
-    public function testGetAuthorListValid(): void
+    public function testAuthorListValid(): void
     {
         $response = $this->getJson(route("author.list", [
             'perPage' => 3,
-            'orderBy' => "desc"
+            'orderBy' => 'desc'
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
@@ -32,7 +32,7 @@ class AuthorListControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertFields($content['authors']);
+        $this->assertFields($content['data']);
     }
 
     /**
@@ -49,7 +49,7 @@ class AuthorListControllerTest extends TestCase
     /**
      * @dataProvider perPageProviderCase
      */
-    public function testGetAuthorListWithPerPageInvalid(int $perPage): void
+    public function testAuthorListWithPerPageInvalid(int $perPage): void
     {
         $response = $this->getJson(route('author.list', [
             'perPage' => $perPage,
@@ -66,7 +66,7 @@ class AuthorListControllerTest extends TestCase
         $this->assertArrayHasKey('message', $content);
     }
 
-    public function testGetAuthorListWithoutPerPage(): void
+    public function testAuthorListWithoutPerPage(): void
     {
         $response = $this->getJson(route('author.list', [
             'orderBy' => "desc"
@@ -78,11 +78,11 @@ class AuthorListControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertFields($content['authors']);
-        $this->assertCount(10, $content['authors']['list']);
+        $this->assertFields($content['data']);
+        $this->assertCount(10, $content['data']['list']);
     }
 
-    public function testGetAuthorListWithoutOrderBy(): void
+    public function testAuthorListWithoutOrderBy(): void
     {
         $response = $this->getJson(route('author.list', [
             'perPage' => 1,
@@ -94,11 +94,11 @@ class AuthorListControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertFields($content['authors']);
-        $this->assertCount(1, $content['authors']['list']);
+        $this->assertFields($content['data']);
+        $this->assertCount(1, $content['data']['list']);
     }
 
-    public function testGetAuthorListWithCurrentPageInvalid(): void
+    public function testAuthorListWithCurrentPageInvalid(): void
     {
         $response = $this->getJson(route('author.list', [
             'perPage' => 1,
@@ -111,10 +111,13 @@ class AuthorListControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertFields($content['authors']);
-        $this->assertCount(0, $content['authors']['list']);
+        $this->assertFields($content['data']);
+        $this->assertCount(0, $content['data']['list']);
     }
 
+    /**
+     * @param array $authors
+     */
     protected function assertFields(array $authors): void
     {
         $this->assertArrayHasKey('currentPage', $authors);
