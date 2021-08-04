@@ -41,7 +41,7 @@ class SeriesStoreControllerTest extends TestCase
         $response->assertStatus(202);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertEquals($content['series']['title'], $this->series->title);
+        $this->assertEquals($content['result']['title'], $this->series->title);
     }
 
     public function testSeriesStoreWithEmptyTitle(): void

@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Api\Series;
 
-use App\DTO\ListDTO;
 use App\Http\Controllers\Controller;
 use App\Repositories\Interfaces\SeriesRepositoryInterface;
 use Illuminate\Http\JsonResponse;
@@ -13,14 +12,14 @@ class SeriesListController extends Controller
     /**
      * @var SeriesRepositoryInterface
      */
-    protected SeriesRepositoryInterface $seriesRepository;
+    protected SeriesRepositoryInterface $repository;
 
     /**
-     * @param SeriesRepositoryInterface $seriesRepository
+     * @param SeriesRepositoryInterface $repository
      */
-    public function __construct(SeriesRepositoryInterface $seriesRepository)
+    public function __construct(SeriesRepositoryInterface $repository)
     {
-        $this->seriesRepository = $seriesRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -29,17 +28,6 @@ class SeriesListController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $series = $this->seriesRepository->list($request);
-
-        $result = new ListDTO(
-            $series->currentPage(),
-            $series->perPage(),
-            $series->total(),
-            $series->lastPage(),
-            $request->get('orderBy', 'desc'),
-            $series->items(),
-        );
-
-        return response()->json(['series' => $result]);
+        return $this->list($request, $this->repository);
     }
 }

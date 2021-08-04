@@ -16,14 +16,14 @@ class SeriesStoreController extends Controller
     /**
      * @var SeriesRepositoryInterface
      */
-    protected SeriesRepositoryInterface $seriesRepository;
+    protected SeriesRepositoryInterface $repository;
 
     /**
-     * @param SeriesRepositoryInterface $seriesRepository
+     * @param SeriesRepositoryInterface $repository
      */
-    public function __construct(SeriesRepositoryInterface $seriesRepository)
+    public function __construct(SeriesRepositoryInterface $repository)
     {
-        $this->seriesRepository = $seriesRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -34,19 +34,6 @@ class SeriesStoreController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
-        $series = Validator::make(
-            json_decode($request->getContent(), true),
-            (new StoreRequest())->rules()
-        );
-
-        if ($series->fails()) {
-            throw new ApiArgumentException(
-                $this->filterErrorMessage(__CLASS__, __LINE__, $request->getContent())
-            );
-        }
-
-        return response()->json([
-            'series' => $this->seriesRepository->store($series->validated())
-        ], 202);
+        return $this->store($request, $this->repository);
     }
 }

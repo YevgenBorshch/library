@@ -18,7 +18,7 @@ class SeriesListControllerTest extends TestCase
         $this->token = User::factory()->create()->createToken('list')->accessToken;
     }
 
-    public function testGetSeriesListValid(): void
+    public function testSeriesListValid(): void
     {
         $response = $this->getJson(route("series.list", [
             'perPage' => 3,
@@ -31,7 +31,7 @@ class SeriesListControllerTest extends TestCase
         $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
 
-        $this->assertFields($content['series']);
+        $this->assertFields($content['data']);
     }
 
     /**
@@ -48,7 +48,7 @@ class SeriesListControllerTest extends TestCase
     /**
      * @dataProvider perPageProviderCase
      */
-    public function testGetSeriesListWithPerPageInvalid(int $perPage): void
+    public function testSeriesListWithPerPageInvalid(int $perPage): void
     {
         $response = $this->getJson(route('series.list', [
             'perPage' => $perPage,
@@ -65,7 +65,7 @@ class SeriesListControllerTest extends TestCase
         $this->assertArrayHasKey('message', $content);
     }
 
-    public function testGetSeriesListWithoutPerPage(): void
+    public function testSeriesListWithoutPerPage(): void
     {
         $response = $this->getJson(route('series.list', [
             'orderBy' => "desc"
@@ -77,11 +77,11 @@ class SeriesListControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertFields($content['series']);
-        $this->assertCount(10, $content['series']['list']);
+        $this->assertFields($content['data']);
+        $this->assertCount(10, $content['data']['list']);
     }
 
-    public function testGetSeriesListWithoutOrderBy(): void
+    public function testSeriesListWithoutOrderBy(): void
     {
         $response = $this->getJson(route('series.list', [
             'perPage' => 1,
@@ -93,11 +93,11 @@ class SeriesListControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertFields($content['series']);
-        $this->assertCount(1, $content['series']['list']);
+        $this->assertFields($content['data']);
+        $this->assertCount(1, $content['data']['list']);
     }
 
-    public function testGetSeriesListWithCurrentPageInvalid(): void
+    public function testSeriesListWithCurrentPageInvalid(): void
     {
         $response = $this->getJson(route('series.list', [
             'perPage' => 1,
@@ -110,8 +110,8 @@ class SeriesListControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertFields($content['series']);
-        $this->assertCount(0, $content['series']['list']);
+        $this->assertFields($content['data']);
+        $this->assertCount(0, $content['data']['list']);
     }
 
     protected function assertFields(array $series): void

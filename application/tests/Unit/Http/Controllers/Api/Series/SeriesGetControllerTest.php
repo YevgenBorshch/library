@@ -3,6 +3,7 @@
 namespace Tests\Unit\Http\Controllers\Api\Series;
 
 
+use App\Models\Series;
 use App\Models\User;
 use Tests\TestCase;
 
@@ -13,16 +14,22 @@ class SeriesGetControllerTest extends TestCase
      */
     protected string $token;
 
+    /**
+     * @var Series
+     */
+    protected $series;
+
     protected function setUp():void
     {
         parent::setUp();
         $this->token = User::factory()->create()->createToken('list')->accessToken;
+        $this->series = Series::factory()->create();
     }
 
     public function testSeriesGetValid(): void
     {
         $response = $this->getJson(route("series.get", [
-            'series' => 1,
+            'series' => $this->series->id,
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
