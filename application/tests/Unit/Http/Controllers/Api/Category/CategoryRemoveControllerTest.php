@@ -41,4 +41,28 @@ class CategoryRemoveControllerTest extends TestCase
         $this->assertArrayHasKey('result', $content);
         $this->assertTrue($content['result']);
     }
+
+    public function testCategoryRemoveWithoutId(): void
+    {
+        $response = $this->postJson(route('category.remove'), [], [
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->token
+        ]);
+        $response->assertStatus(500);
+        $message = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('message', $message);
+    }
+
+    public function testCategoryRemoveWithEmptyId(): void
+    {
+        $response = $this->postJson(route('category.remove'), [
+            'id' => '',
+        ], [
+            'Accept' => 'application/json',
+            'Authorization' => 'Bearer ' . $this->token
+        ]);
+        $response->assertStatus(500);
+        $message = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('message', $message);
+    }
 }

@@ -39,7 +39,7 @@ class CategoryStoreControllerTest extends TestCase
         $response->assertStatus(202);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertEquals($content['category']['title'], $this->category->title);
+        $this->assertEquals($content['result']['title'], $this->category->title);
     }
 
     public function testCategoryStoreWithEmptyTitle(): void

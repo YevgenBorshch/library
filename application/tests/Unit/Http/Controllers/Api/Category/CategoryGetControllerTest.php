@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Http\Controllers\Api\Category;
 
+use App\Models\Category;
 use App\Models\User;
 use Tests\TestCase;
 
@@ -12,16 +13,22 @@ class CategoryGetControllerTest extends TestCase
      */
     protected string $token;
 
+    /**
+     * @var Category
+     */
+    protected $category;
+
     protected function setUp():void
     {
         parent::setUp();
         $this->token = User::factory()->create()->createToken('list')->accessToken;
+        $this->category = Category::factory()->create();
     }
 
     public function testCategoryGetValid(): void
     {
         $response = $this->getJson(route("category.get", [
-            'category' => 1,
+            'category' => $this->category->id,
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token

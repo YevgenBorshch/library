@@ -18,7 +18,7 @@ class CategoryListControllerTest extends TestCase
         $this->token = User::factory()->create()->createToken('list')->accessToken;
     }
 
-    public function testGetCategoryListValid(): void
+    public function testCategoryListValid(): void
     {
         $response = $this->getJson(route("category.list", [
             'perPage' => 3,
@@ -31,7 +31,7 @@ class CategoryListControllerTest extends TestCase
         $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
 
-        $this->assertFields($content['categories']);
+        $this->assertFields($content['data']);
     }
 
     /**
@@ -48,7 +48,7 @@ class CategoryListControllerTest extends TestCase
     /**
      * @dataProvider perPageProviderCase
      */
-    public function testGetCategoryListWithPerPageInvalid(int $perPage): void
+    public function testCategoryListWithPerPageInvalid(int $perPage): void
     {
         $response = $this->getJson(route('category.list', [
             'perPage' => $perPage,
@@ -65,7 +65,7 @@ class CategoryListControllerTest extends TestCase
         $this->assertArrayHasKey('message', $content);
     }
 
-    public function testGetCategoryListWithoutPerPage(): void
+    public function testCategoryListWithoutPerPage(): void
     {
         $response = $this->getJson(route('category.list', [
             'orderBy' => "desc"
@@ -77,11 +77,11 @@ class CategoryListControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertFields($content['categories']);
-        $this->assertCount(10, $content['categories']['list']);
+        $this->assertFields($content['data']);
+        $this->assertCount(10, $content['data']['list']);
     }
 
-    public function testGetCategoryListWithoutOrderBy(): void
+    public function testCategoryListWithoutOrderBy(): void
     {
         $response = $this->getJson(route('category.list', [
             'perPage' => 1,
@@ -93,11 +93,11 @@ class CategoryListControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertFields($content['categories']);
-        $this->assertCount(1, $content['categories']['list']);
+        $this->assertFields($content['data']);
+        $this->assertCount(1, $content['data']['list']);
     }
 
-    public function testGetCategoryListWithCurrentPageInvalid(): void
+    public function testCategoryListWithCurrentPageInvalid(): void
     {
         $response = $this->getJson(route('category.list', [
             'perPage' => 1,
@@ -110,8 +110,8 @@ class CategoryListControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertFields($content['categories']);
-        $this->assertCount(0, $content['categories']['list']);
+        $this->assertFields($content['data']);
+        $this->assertCount(0, $content['data']['list']);
     }
 
     protected function assertFields(array $categories): void
