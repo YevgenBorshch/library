@@ -7,6 +7,11 @@ use App\Http\Controllers\Api\Author\AuthorListController;
 use App\Http\Controllers\Api\Author\AuthorRemoveController;
 use App\Http\Controllers\Api\Author\AuthorStoreController;
 use App\Http\Controllers\Api\Author\AuthorUpdateController;
+use App\Http\Controllers\Api\Book\BookGetController;
+use App\Http\Controllers\Api\Book\BookListController;
+use App\Http\Controllers\Api\Book\BookRemoveController;
+use App\Http\Controllers\Api\Book\BookStoreController;
+use App\Http\Controllers\Api\Book\BookUpdateController;
 use App\Http\Controllers\Api\Category\CategoryGetController;
 use App\Http\Controllers\Api\Category\CategoryListController;
 use App\Http\Controllers\Api\Category\CategoryRemoveController;
@@ -14,10 +19,12 @@ use App\Http\Controllers\Api\Category\CategoryStoreController;
 use App\Http\Controllers\Api\Category\CategoryUpdateController;
 use App\Http\Controllers\Api\Series\SeriesGetController;
 use App\Http\Controllers\Api\Series\SeriesListController;
+use App\Http\Controllers\Api\Series\SeriesRemoveController;
 use App\Http\Controllers\Api\Series\SeriesStoreController;
 use App\Http\Controllers\Api\Series\SeriesUpdateController;
 use App\Http\Controllers\Api\Tag\TagGetController;
 use App\Http\Controllers\Api\Tag\TagListController;
+use App\Http\Controllers\Api\Tag\TagRemoveController;
 use App\Http\Controllers\Api\Tag\TagStoreController;
 use App\Http\Controllers\Api\Tag\TagUpdateController;
 use Illuminate\Http\Request;
@@ -40,6 +47,15 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/remove', [AuthorRemoveController::class, '__invoke'])->name('author.remove');
     });
 
+    // Book
+    Route::prefix('/book')->group(function () {
+        Route::get('/list', [BookListController::class, '__invoke'])->name('book.list');
+        Route::post('/store', [BookStoreController::class, '__invoke'])->name('book.store');
+        Route::get('/get/{book}', [BookGetController::class, '__invoke'])->name('book.get');
+        Route::post('/update', [BookUpdateController::class, '__invoke'])->name('book.update');
+        Route::post('/remove', [BookRemoveController::class, '__invoke'])->name('book .remove');
+    });
+
     // Category
     Route::prefix('/category')->group(function () {
         Route::get('/list', [CategoryListController::class, '__invoke'])->name('category.list');
@@ -55,6 +71,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/store', [TagStoreController::class, '__invoke'])->name('tag.store');
         Route::get('/get/{tag}', [TagGetController::class, '__invoke'])->name('tag.get');
         Route::post('/update', [TagUpdateController::class, '__invoke'])->name('tag.update');
+        Route::post('/remove', [TagRemoveController::class, '__invoke'])->name('tag.remove');
     });
 
     // Series
@@ -63,6 +80,7 @@ Route::middleware('auth:api')->group(function () {
         Route::post('/store', [SeriesStoreController::class, '__invoke'])->name('series.store');
         Route::get('/get/{series}', [SeriesGetController::class, '__invoke'])->name('series.get');
         Route::post('/update', [SeriesUpdateController::class, '__invoke'])->name('series.update');
+        Route::post('/remove', [SeriesRemoveController::class, '__invoke'])->name('series.remove');
     });
 });
 
