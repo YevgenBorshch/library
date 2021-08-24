@@ -17,7 +17,7 @@
 							"script": {
 								"exec": [
 									"var jsonData = JSON.parse(responseBody);",
-									"postman.setEnvironmentVariable(\"token\", jsonData.token);"
+									"pm.collectionVariables.set(\"token\", jsonData.token);"
 								],
 								"type": "text/javascript"
 							}
@@ -38,19 +38,13 @@
 							}
 						],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "email",
-									"value": "test@example.com",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "testPassword",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\n    \"email\":\"test@example.com\",\n    \"password\":\"testPassword\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
 							"raw": "{{host}}/auth/login",
@@ -82,29 +76,13 @@
 							}
 						],
 						"body": {
-							"mode": "urlencoded",
-							"urlencoded": [
-								{
-									"key": "name",
-									"value": "admin",
-									"type": "text"
-								},
-								{
-									"key": "email",
-									"value": "admin@library.pp.ua",
-									"type": "text"
-								},
-								{
-									"key": "password",
-									"value": "Yebo1013",
-									"type": "text"
-								},
-								{
-									"key": "password_confirmation",
-									"value": "Yebo1013",
-									"type": "text"
+							"mode": "raw",
+							"raw": "{\n    \"name\": \"admin\",\n    \"email\": \"admin0@library.pp.ua\",\n    \"password\": \"Yebo1013\",\n    \"password_confirmation\": \"Yebo1013\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
 								}
-							]
+							}
 						},
 						"url": {
 							"raw": "{{host}}/auth/register",
@@ -123,13 +101,60 @@
 		},
 		{
 			"name": "books",
-			"item": []
-		},
-		{
-			"name": "authors",
 			"item": [
 				{
-					"name": "get",
+					"name": "store",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"author\": [1, 2],\n    \"category_id\": 1,\n    \"series_id\": 1,\n    \"tag\": [1, 2],\n    \"description\":\"Давно выяснено, что при оценке дизайна и композиции читаемый текст мешает сосредоточиться. Lorem Ipsum используют потому, что тот обеспечивает более или менее стандартное заполнение шаблона, а также реальное распределение букв и пробелов в абзацах, которое не получается при простой дубликации Здесь ваш текст.. Здесь ваш текст.. Здесь ваш текст.. Многие программы электронной вёрстки и редакторы HTML используют Lorem Ipsum в качестве текста по умолчанию, так что поиск по ключевым словам lorem ipsum сразу показывает, как много веб-страниц всё ещё дожидаются своего настоящего рождения. За прошедшие годы текст Lorem Ipsum получил много версий. Некоторые версии появились по ошибке, некоторые - намеренно (например юмористические варианты).\",\n    \"title\":\"test title book\",\n    \"pages\": 1100,\n    \"year\": 2121\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{host}}/book/store",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"book",
+								"store"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "list",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -144,14 +169,78 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{host}}/author/get/1",
+							"raw": "{{host}}/book/list?currentPage=1&perPage=5&orderBy=asc",
+							"host": [
+								"{{host}}"
+							],
+							"path": [
+								"book",
+								"list"
+							],
+							"query": [
+								{
+									"key": "currentPage",
+									"value": "1"
+								},
+								{
+									"key": "perPage",
+									"value": "5"
+								},
+								{
+									"key": "orderBy",
+									"value": "asc"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "authors",
+			"item": [
+				{
+					"name": "get",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{host}}/author/get/-100",
 							"host": [
 								"{{host}}"
 							],
 							"path": [
 								"author",
 								"get",
-								"1"
+								"-100"
 							]
 						}
 					},
@@ -159,6 +248,9 @@
 				},
 				{
 					"name": "list",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {}
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -201,6 +293,11 @@
 				},
 				{
 					"name": "store",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -213,10 +310,21 @@
 							]
 						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"firstname\":\"Test1\",\n    \"lastname\":\"Testovich1\"\n}"
+							"raw": "{\n    \"firstname\":\"\",\n    \"lastname\":\"Test1\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "{{host}}/author/store",
@@ -233,22 +341,28 @@
 				},
 				{
 					"name": "update",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
 					"request": {
-						"auth": {
-							"type": "bearer",
-							"bearer": [
-								{
-									"key": "token",
-									"value": "{{token}}",
-									"type": "string"
-								}
-							]
-						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\":1,\n    \"firstname\": \"Test\",\n    \"lastname\":\"Testovich\"\n}"
+							"raw": "{\n    \"id\":1,\n    \"firstname\":\"14\",\n    \"lastname\":\"Te\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "{{host}}/author/update",
@@ -265,6 +379,11 @@
 				},
 				{
 					"name": "remove",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -277,10 +396,21 @@
 							]
 						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"author_id\":1\n}"
+							"raw": "{\n    \"id\":100\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "{{host}}/author/remove",
@@ -381,6 +511,11 @@
 				},
 				{
 					"name": "store",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -393,10 +528,21 @@
 							]
 						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\":\"Test\"\n}"
+							"raw": "{\n    \"title\":\"ghjdghjd\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "{{host}}/category/store",
@@ -413,6 +559,11 @@
 				},
 				{
 					"name": "update",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -425,10 +576,21 @@
 							]
 						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\":1,\n    \"title\":\"Testovich\"\n}"
+							"raw": "{\n    \"id\":1,\n    \"title\":\"T\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "{{host}}/category/update",
@@ -521,6 +683,11 @@
 				},
 				{
 					"name": "store",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -533,10 +700,21 @@
 							]
 						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\":\"Test2\"\n}"
+							"raw": "{\n    \"title\":\"Test2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "{{host}}/tag/store",
@@ -553,6 +731,11 @@
 				},
 				{
 					"name": "update",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -565,10 +748,21 @@
 							]
 						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\":1,\n    \"title\":\"Testovich\"\n}"
+							"raw": "{\n    \"id\":1,\n    \"title\":\"Testovich\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "{{host}}/tag/update",
@@ -661,6 +855,11 @@
 				},
 				{
 					"name": "store",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -673,10 +872,21 @@
 							]
 						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"title\":\"Test2\"\n}"
+							"raw": "{\n    \"title\":\"Test2\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "{{host}}/series/store",
@@ -693,6 +903,11 @@
 				},
 				{
 					"name": "update",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"accept": true
+						}
+					},
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -705,10 +920,21 @@
 							]
 						},
 						"method": "POST",
-						"header": [],
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"id\":1,\n    \"title\":\"Testovich\"\n}"
+							"raw": "{\n    \"id\":1,\n    \"title\":\"Testovich\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
 						},
 						"url": {
 							"raw": "{{host}}/series/update",
@@ -724,6 +950,46 @@
 					"response": []
 				}
 			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{token}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "host",
+			"value": "http://library.pp.ua/api"
+		},
+		{
+			"key": "token",
+			"value": ""
 		}
 	]
 }
