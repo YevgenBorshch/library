@@ -4,8 +4,11 @@
 namespace App\Repositories\Eloquent;
 
 
+use App\DTO\ListDTO;
 use App\Exceptions\ApiArgumentException;
-use App\Traits\CheckEnvironment;
+use App\Traits\CheckEnvironmentTrait;
+use Exception;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\Paginator;
 use Symfony\Component\HttpFoundation\Request;
@@ -15,7 +18,7 @@ class BaseRepository
     /**
      * Trait filter error message for prod environment
      */
-    use CheckEnvironment;
+    use CheckEnvironmentTrait;
 
     /**
      * @var Model
@@ -34,18 +37,26 @@ class BaseRepository
     /**
      * @param array $value
      * @return Model
+     * @throws ApiArgumentException
      */
     public function store(array $value): Model
     {
-        return $this->model::create($value);
+        try {
+            return $this->model::create($value);
+        } catch (Exception $e) {
+            throw new ApiArgumentException(
+                $this->filterErrorMessage(__METHOD__ . ', ' . trans('api.error.database_store')),
+                'data => ' . json_encode($value)
+            );
+        }
     }
 
     /**
      * @param Request $request
-     * @return mixed
+     * @return ListDTO
      * @throws ApiArgumentException
      */
-    public function list(Request $request)
+    public function list(Request $request): ListDTO
     {
         $currentPage = $request->get('currentPage', 1);
         $perPage = $request->get('perPage', 10);
@@ -53,7 +64,8 @@ class BaseRepository
 
         if (!$perPage || $perPage < 1 || !$this->model::validateOrder($orderBy)) {
             throw new ApiArgumentException(
-                $this->filterErrorMessage(__CLASS__, __LINE__, $request->getContent())
+                $this->filterErrorMessage(__METHOD__ . ', ' . trans('api.arguments.bad')),
+                'data => ' . json_encode($request->all())
             );
         }
 
@@ -61,33 +73,76 @@ class BaseRepository
             return $currentPage;
         });
 
-        return $this->model::orderBy('id', $orderBy)->paginate($perPage);
+        $value = $this->model::orderBy('id', $orderBy)->paginate($perPage);
+
+        return new ListDTO(
+            $value->currentPage(),
+            $value->perPage(),
+            $value->total(),
+            $value->lastPage(),
+            $orderBy,
+            $value->items(),
+        );
     }
 
     /**
      * @param array $value
-     * @return bool
+     * @return Model
      * @throws ApiArgumentException
      */
-    public function update(array $value): bool
+    public function update(array $value): Model
     {
-        $existValue = $this->model::find($value['id']);
+        $item = $this->model::find($value['id']);
 
-        if (!$existValue) {
+        if (!$item) {
             throw new ApiArgumentException(
-                $this->filterErrorMessage(__CLASS__, __LINE__, json_encode($value))
+                $this->filterErrorMessage(__METHOD__ . ', ' . trans('api.id.not_exist')),
+                'data => ' . json_encode($value)
             );
         }
 
-        return $existValue->update($value);
+        $item->update($value);
+
+        return $item;
     }
 
     /**
      * @param int $id
-     * @return bool
+     * @return Model
+     * @throws ApiArgumentException
      */
-    public function remove(int $id): bool
+    public function remove(int $id): Model
     {
-        return $this->model::find($id)->delete();
+        $item = $this->model::find($id);
+
+        if (!$item) {
+            throw new ApiArgumentException(
+                $this->filterErrorMessage(__METHOD__ . ', ' . trans('api.id.not_exist')),
+                'data => ' . $id
+            );
+        }
+
+        $item->delete();
+
+        return $item;
+    }
+
+    /**
+     * @param int $id
+     * @return Collection
+     * @throws ApiArgumentException
+     */
+    public function get(int $id): Collection
+    {
+        $item = $this->model::where('id', $id)->get();
+
+        if (!$item->count()) {
+            throw new ApiArgumentException(
+                $this->filterErrorMessage(__METHOD__ . ', ' . trans('api.id.not_exist')),
+                'context: id = ' . $id
+            );
+        }
+
+        return $item;
     }
 }

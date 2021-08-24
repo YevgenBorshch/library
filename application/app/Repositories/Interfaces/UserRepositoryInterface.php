@@ -9,12 +9,6 @@ use App\Models\User;
 interface UserRepositoryInterface extends BaseRepositoryInterface
 {
     /**
-     * @param array $credentials
-     * @return User
-     */
-    public function store(array $credentials): User;
-
-    /**
      * @param string $column
      * @param string $values
      * @return mixed

@@ -18,19 +18,6 @@ class UserRepository extends BaseRepository implements UserRepositoryInterface
     }
 
     /**
-     * @param array $credentials
-     * @return User
-     */
-    public function store(array $credentials): User
-    {
-        return User::create([
-            'name' => $credentials['name'],
-            'email' => $credentials['email'],
-            'password' => bcrypt($credentials['password'])
-        ]);
-    }
-
-    /**
      * @param string $column
      * @param string $values
      * @return mixed

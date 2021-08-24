@@ -26,13 +26,13 @@ interface BaseRepositoryInterface
 
     /**
      * @param array $value
-     * @return bool
+     * @return Model
      */
-    public function update(array $value): bool;
+    public function update(array $value): Model;
 
     /**
      * @param int $id
-     * @return bool
+     * @return Model
      */
-    public function remove(int $id): bool;
+    public function remove(int $id): Model;
 }
