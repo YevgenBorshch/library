@@ -23,7 +23,7 @@ class RegistrationControllerTest extends TestCase
         $response->assertStatus(201);
         $content = json_decode($response->getContent(), true);
 
-        $this->assertEquals($user->name, $content['user']['name']);
-        $this->assertEquals($user->email, $content['user']['email']);
+        $this->assertEquals($user->name, $content['result']['name']);
+        $this->assertEquals($user->email, $content['result']['email']);
     }
 }

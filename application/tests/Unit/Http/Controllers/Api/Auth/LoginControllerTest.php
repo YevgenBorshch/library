@@ -21,6 +21,7 @@ class LoginControllerTest extends TestCase
 
         $response->assertStatus(200);
         $content = json_decode($response->getContent(), true);
+
         $this->assertArrayHasKey('token', $content);
     }
 }

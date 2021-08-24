@@ -17,15 +17,15 @@ class LoginController extends Controller
     /**
      * @var UserRepositoryInterface
      */
-    protected UserRepositoryInterface $userRepository;
+    protected UserRepositoryInterface $repository;
 
     /**
      * LoginController constructor.
-     * @param UserRepositoryInterface $userRepository
+     * @param UserRepositoryInterface $repository
      */
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(UserRepositoryInterface $repository)
     {
-        $this->userRepository = $userRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -35,18 +35,18 @@ class LoginController extends Controller
      */
     public function __invoke(LoginRequest $request): JsonResponse
     {
-        $credentials = $request->validated();
-        $user = $this->userRepository->getUserByColumn('email', $credentials['email']);
+        $user = $this->repository->getUserByColumn('email', $request->get('email'));
 
-        if(!$user || !Hash::check($credentials['password'], $user->password)) {
+        if(!$user || !Hash::check($request->get('password'), $user->password)) {
             throw new ApiAuthException(
-                $this->filterErrorMessage(__CLASS__, __LINE__, $request->getContent())
+                $this->filterErrorMessage(trans('auth.failed')),
+                'context:' . $request->all()
             );
         }
 
         return response()->json([
             'user' => $user,
             'token' => $user->createToken('Token')->accessToken
-        ], 200);
+        ]);
     }
 }

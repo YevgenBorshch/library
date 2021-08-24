@@ -36,15 +36,15 @@ class RegisterRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'name.required' => __('auth.name.required'),
-            'name.min' => __('auth.name.min'),
+            'name.required' => trans('auth.name.required'),
+            'name.min' => trans('auth.name.min'),
 
-            'email.required' => __('auth.email.required'),
-            'email.email' => __('auth.email.email'),
-            'email.unique' => __('auth.email.unique'),
+            'email.required' => trans('auth.email.required'),
+            'email.email' => trans('auth.email.email'),
+            'email.unique' => trans('auth.email.unique'),
 
-            'password.required' => __('auth.password.required'),
-            'password.confirmed' => __('auth.password.confirmed'),
+            'password.required' => trans('auth.password.required'),
+            'password.confirmed' => trans('auth.password.confirmed'),
         ];
     }
 }

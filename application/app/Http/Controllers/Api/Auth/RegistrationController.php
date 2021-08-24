@@ -15,15 +15,15 @@ class RegistrationController extends Controller
     /**
      * @var UserRepositoryInterface
      */
-    protected UserRepositoryInterface $userRepository;
+    protected UserRepositoryInterface $repository;
 
     /**
      * RegistrationController constructor.
-     * @param UserRepositoryInterface $userRepository
+     * @param UserRepositoryInterface $repository
      */
-    public function __construct(UserRepositoryInterface $userRepository)
+    public function __construct(UserRepositoryInterface $repository)
     {
-        $this->userRepository = $userRepository;
+        $this->repository = $repository;
     }
 
     /**
@@ -33,15 +33,19 @@ class RegistrationController extends Controller
      */
     public function __invoke(RegisterRequest $request): JsonResponse
     {
-        $credentials = $request->validated();
-        $user = $this->userRepository->store($credentials);
+        $user = $this->repository->store([
+            'name' => $request->get('name'),
+            'email' => $request->get('email'),
+            'password' => bcrypt($request->get('password'))
+        ]);
 
         if (!$user) {
             throw new ApiAuthException(
-                $this->filterErrorMessage(__CLASS__, __LINE__, $request->getContent())
+                $this->filterErrorMessage(trans('auth.registration.failed')),
+                'context:' . $request->all()
             );
         }
 
-        return response()->json(['user' => $user], 201);
+        return response()->json(['result' => $user], 201);
     }
 }
