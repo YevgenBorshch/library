@@ -29,7 +29,7 @@ class SeriesGetControllerTest extends TestCase
     public function testSeriesGetValid(): void
     {
         $response = $this->getJson(route("series.get", [
-            'series' => $this->series->id,
+            'id' => $this->series->id,
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
@@ -39,16 +39,16 @@ class SeriesGetControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertArrayHasKey('id', $content['series']);
-        $this->assertArrayHasKey('title', $content['series']);
-        $this->assertCount(1, $content);
-        $this->assertCount(4, $content['series']);
+        $this->assertArrayHasKey('id', $content['data'][0]);
+        $this->assertArrayHasKey('title', $content['data'][0]);
+        $this->assertCount(3, $content);
+        $this->assertCount(1, $content['data']);
     }
 
     public function testSeriesGetWithIdInvalid(): void
     {
         $response = $this->getJson(route("series.get", [
-            'series' => 100500,
+            'id' => 100500,
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token

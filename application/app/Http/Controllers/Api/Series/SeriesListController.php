@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api\Series;
 
+use App\DTO\ResponseDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ListRequest;
 use App\Repositories\Interfaces\SeriesRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 class SeriesListController extends Controller
 {
@@ -15,6 +16,7 @@ class SeriesListController extends Controller
     protected SeriesRepositoryInterface $repository;
 
     /**
+     * SeriesListController constructor.
      * @param SeriesRepositoryInterface $repository
      */
     public function __construct(SeriesRepositoryInterface $repository)
@@ -23,11 +25,13 @@ class SeriesListController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param ListRequest $request
      * @return JsonResponse
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(ListRequest $request): JsonResponse
     {
-        return $this->list($request, $this->repository);
+        return response()->json(
+            new ResponseDTO($this->repository->list($request))
+        );
     }
 }

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Api\Series;
 
-use App\Exceptions\ApiArgumentException;
+use App\DTO\ResponseDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RemoveRequest;
+use App\Http\Requests\StoreRequest;
 use App\Repositories\Interfaces\SeriesRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpFoundation\Request;
 
 class SeriesRemoveController extends Controller
 {
@@ -17,6 +17,7 @@ class SeriesRemoveController extends Controller
     protected SeriesRepositoryInterface $repository;
 
     /**
+     * SeriesRemoveController constructor.
      * @param SeriesRepositoryInterface $repository
      */
     public function __construct(SeriesRepositoryInterface $repository)
@@ -25,13 +26,13 @@ class SeriesRemoveController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param RemoveRequest $request
      * @return JsonResponse
-     * @throws ApiArgumentException
-     * @throws ValidationException
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(RemoveRequest $request): JsonResponse
     {
-        return $this->remove($request, $this->repository);
+        return response()->json(
+            new ResponseDTO($this->repository->remove($request->get('id')))
+        );
     }
 }

@@ -36,10 +36,10 @@ class SeriesUpdateControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(202);
+        $response->assertStatus(200);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertTrue($content['result']);
+        $this->assertArrayHasKey('data', $content);
 
         $series = Series::find($this->series->id);
         $this->assertNotNull($series);
@@ -56,9 +56,9 @@ class SeriesUpdateControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(500);
+        $response->assertStatus(404);
 
         $message = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('message', $message);
+        $this->assertArrayHasKey('errors', $message);
     }
 }

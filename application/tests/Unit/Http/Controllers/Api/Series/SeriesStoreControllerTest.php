@@ -38,10 +38,10 @@ class SeriesStoreControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(202);
+        $response->assertStatus(201);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertEquals($content['result']['title'], $this->series->title);
+        $this->assertEquals($content['data']['title'], $this->series->title);
     }
 
     public function testSeriesStoreWithEmptyTitle(): void
@@ -53,10 +53,10 @@ class SeriesStoreControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(500);
+        $response->assertStatus(422);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('message', $content);
+        $this->assertArrayHasKey('errors', $content);
     }
 
     public function testSeriesStoreWithShortTitle(): void
@@ -68,9 +68,9 @@ class SeriesStoreControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(500);
+        $response->assertStatus(422);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('message', $content);
+        $this->assertArrayHasKey('errors', $content);
     }
 }
