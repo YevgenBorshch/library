@@ -40,7 +40,7 @@ class LoginController extends Controller
         if(!$user || !Hash::check($request->get('password'), $user->password)) {
             throw new ApiAuthException(
                 $this->filterErrorMessage(trans('auth.failed')),
-                'context:' . $request->all()
+                'context:' . json_encode($request->all())
             );
         }
 
