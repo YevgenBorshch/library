@@ -4,10 +4,11 @@
 namespace App\Http\Controllers\Api\Author;
 
 
+use App\DTO\ResponseDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ListRequest;
 use App\Repositories\Interfaces\AuthorRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 class AuthorListController extends Controller
 {
@@ -17,7 +18,7 @@ class AuthorListController extends Controller
     protected AuthorRepositoryInterface $repository;
 
     /**
-     * AuthorController constructor.
+     * AuthorListController constructor.
      * @param AuthorRepositoryInterface $repository
      */
     public function __construct(AuthorRepositoryInterface $repository)
@@ -26,11 +27,13 @@ class AuthorListController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param ListRequest $request
      * @return JsonResponse
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(ListRequest $request): JsonResponse
     {
-        return $this->list($request, $this->repository);
+        return response()->json(
+            new ResponseDTO($this->repository->list($request))
+        );
     }
 }

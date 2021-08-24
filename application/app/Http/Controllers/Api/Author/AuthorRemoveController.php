@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api\Author;
 
-use App\Exceptions\ApiArgumentException;
+use App\DTO\ResponseDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RemoveRequest;
 use App\Repositories\Interfaces\AuthorRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpFoundation\Request;
 
 class AuthorRemoveController extends Controller
 {
@@ -17,7 +16,7 @@ class AuthorRemoveController extends Controller
     protected AuthorRepositoryInterface $repository;
 
     /**
-     * AuthorController constructor.
+     * AuthorRemoveController constructor.
      * @param AuthorRepositoryInterface $repository
      */
     public function __construct(AuthorRepositoryInterface $repository)
@@ -26,13 +25,13 @@ class AuthorRemoveController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param RemoveRequest $request
      * @return JsonResponse
-     * @throws ApiArgumentException
-     * @throws ValidationException
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(RemoveRequest $request): JsonResponse
     {
-        return $this->remove($request, $this->repository);
+        return response()->json(
+            new ResponseDTO($this->repository->remove($request->get('id')))
+        );
     }
 }

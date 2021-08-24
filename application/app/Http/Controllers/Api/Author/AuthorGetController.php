@@ -4,8 +4,9 @@
 namespace App\Http\Controllers\Api\Author;
 
 
+use App\DTO\ResponseDTO;
+use App\Exceptions\ApiArgumentException;
 use App\Http\Controllers\Controller;
-use App\Models\Author;
 use App\Repositories\Interfaces\AuthorRepositoryInterface;
 use Illuminate\Http\JsonResponse;
 
@@ -14,23 +15,25 @@ class AuthorGetController extends Controller
     /**
      * @var AuthorRepositoryInterface
      */
-    protected AuthorRepositoryInterface $authorRepository;
+    protected AuthorRepositoryInterface $repository;
 
     /**
-     * AuthorController constructor.
-     * @param AuthorRepositoryInterface $authorRepository
+     * @param AuthorRepositoryInterface $repository
      */
-    public function __construct(AuthorRepositoryInterface $authorRepository)
+    public function __construct(AuthorRepositoryInterface $repository)
     {
-        $this->authorRepository = $authorRepository;
+        $this->repository = $repository;
     }
 
     /**
-     * @param Author $author
+     * @param int $id
      * @return JsonResponse
+     * @throws ApiArgumentException
      */
-    public function __invoke(Author $author): JsonResponse
+    public function __invoke(int $id): JsonResponse
     {
-        return response()->json(['author' => $author]);
+        return response()->json(
+            new ResponseDTO($this->repository->get($id))
+        );
     }
 }
