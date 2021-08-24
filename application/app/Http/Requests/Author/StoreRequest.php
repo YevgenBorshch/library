@@ -2,10 +2,15 @@
 
 namespace App\Http\Requests\Author;
 
+use App\Traits\ValidationJsonResponseTrait;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
 class StoreRequest extends FormRequest
 {
+    use ValidationJsonResponseTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -35,11 +40,19 @@ class StoreRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'firstname.required' => __('api.firstname.required'),
-            'firstname.min' => __('api.firstname.min'),
-
-            'lastname.required' => __('api.lastname.required'),
-            'lastname.min' => __('api.lastname.min'),
+            'firstname.required' => trans('api.firstname.required'),
+            'firstname.min' => trans('api.firstname.min'),
+            'lastname.required' => trans('api.lastname.required'),
+            'lastname.min' => trans('api.lastname.min'),
         ];
+    }
+
+    /**
+     * @param Validator $validator
+     * @throws ValidationException
+     */
+    protected function failedValidation(Validator $validator): void
+    {
+        $this->makeJsonResponse($validator);
     }
 }

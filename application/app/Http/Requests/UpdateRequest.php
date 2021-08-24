@@ -1,11 +1,16 @@
 <?php
 
-namespace App\Http\Requests\Category_Series_Tag;
+namespace App\Http\Requests;
 
+use App\Traits\ValidationJsonResponseTrait;
+use Illuminate\Contracts\Validation\Validator;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\ValidationException;
 
 class UpdateRequest extends FormRequest
 {
+    use ValidationJsonResponseTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      *
@@ -35,9 +40,17 @@ class UpdateRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'id.required' => __('api.id.required'),
-
-            'title.min' => __('api.title.min'),
+            'id.required' => trans('api.id.required'),
+            'title.min' => trans('api.title.min'),
         ];
+    }
+
+    /**
+     * @param Validator $validator
+     * @throws ValidationException
+     */
+    protected function failedValidation(Validator $validator): void
+    {
+        $this->makeJsonResponse($validator);
     }
 }

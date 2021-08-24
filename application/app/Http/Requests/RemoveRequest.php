@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Author;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -24,7 +24,7 @@ class RemoveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'author_id' => 'required|exists:authors,id'
+            'id' => 'required|numeric',
         ];
     }
 
@@ -34,7 +34,7 @@ class RemoveRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'author_id.required' => __('api.author_id.required'),
+            'id.required' => trans('api.id.required'),
         ];
     }
 }

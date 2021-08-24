@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Category_Series_Tag;
+namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class RemoveRequest extends FormRequest
+class ListRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,7 +24,9 @@ class RemoveRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'id' => 'required|numeric',
+            'currentPage' => 'numeric',
+            'perPage' => 'numeric',
+            'orderBy' => 'string',
         ];
     }
 
@@ -34,7 +36,7 @@ class RemoveRequest extends FormRequest
     public function messages(): array
     {
         return [
-            'id.required' => __('api.id.required'),
+            'currentPage.numeric' => trans('api.id.required'),
         ];
     }
 }
