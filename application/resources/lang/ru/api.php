@@ -1,13 +1,16 @@
 <?php
 
 return [
-    'arguments.bad' => 'Неправильные агрументы в запросе',
-    'id.required' => 'Поле ID обязательное',
-    'id.doesntExist' => 'ID не найден',
-    'firstname.required' => 'Поле имя обязательное',
-    'firstname.min' => 'Поле имя должно быть более чем :min символов',
-    'lastname.required' => 'Поле фамилия обязательное',
-    'lastname.min' => 'Поле фамилия должно быть более чем :min символов',
-    'title.min' => 'Поле название должно быть более чем :min символов',
-    'author_id.required' => 'Поле author_id обязательное',
+    'arguments.bad' => 'неправильные агрументы в запросе',
+    'id.required' => 'id обязательное поле',
+    'id.not_exist' => 'id не найден',
+    'firstname.required' => 'имя обязательное поле',
+    'firstname.min' => 'имя должно быть длинее :min символов',
+    'lastname.required' => 'фамилия обязательное поле',
+    'lastname.min' => 'фамилия должна быть длинее :min символов',
+    'title.min' => 'название должно быть длинее :min символов',
+    'error' => [
+        'database' => 'ошибка в запросе к БД',
+        'database_store' => 'ошибка при сохранении в БД'
+    ]
 ];
