@@ -29,7 +29,7 @@ class AuthorGetControllerTest extends TestCase
     public function testAuthorGetValid(): void
     {
         $response = $this->getJson(route("author.get", [
-            'author' => $this->author->id,
+            'id' => $this->author->id,
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
@@ -39,22 +39,28 @@ class AuthorGetControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertArrayHasKey('id', $content['author']);
-        $this->assertArrayHasKey('firstname', $content['author']);
-        $this->assertArrayHasKey('lastname', $content['author']);
-        $this->assertCount(1, $content);
-        $this->assertCount(5, $content['author']);
+        $this->assertArrayHasKey('id', $content['data'][0]);
+        $this->assertArrayHasKey('firstname', $content['data'][0]);
+        $this->assertArrayHasKey('lastname', $content['data'][0]);
+        $this->assertCount(3, $content);
+        $this->assertCount(5, $content['data'][0]);
     }
 
     public function testAuthorGetWithIdInvalid(): void
     {
         $response = $this->getJson(route("author.get", [
-            'author' => 100500,
+            'id' => 100500,
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
         $response->assertStatus(404);
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->arrayHasKey('errors', $content);
+        $this->arrayHasKey('hash', $content);
+        $this->assertCount(1, $content['errors']);
     }
 }

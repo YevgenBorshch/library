@@ -35,11 +35,14 @@ class AuthorRemoveControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(202);
+        $response->assertStatus(200);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('result', $content);
-        $this->assertTrue($content['result']);
+
+        $this->assertArrayHasKey('data', $content);
+        $this->assertArrayHasKey('id', $content['data']);
+        $this->assertArrayHasKey('firstname', $content['data']);
+        $this->assertArrayHasKey('lastname', $content['data']);
     }
 
     public function testAuthorRemoveWithoutId(): void
@@ -48,7 +51,7 @@ class AuthorRemoveControllerTest extends TestCase
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
         ]);
-        $response->assertStatus(500);
+        $response->assertStatus(422);
         $message = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('message', $message);
     }
@@ -61,7 +64,7 @@ class AuthorRemoveControllerTest extends TestCase
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
         ]);
-        $response->assertStatus(500);
+        $response->assertStatus(422);
         $message = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('message', $message);
     }

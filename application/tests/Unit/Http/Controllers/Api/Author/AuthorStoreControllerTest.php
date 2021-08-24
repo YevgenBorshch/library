@@ -37,11 +37,11 @@ class AuthorStoreControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(202);
+        $response->assertStatus(201);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertEquals($content['author']['firstname'], $this->author->firstname);
-        $this->assertEquals($content['author']['lastname'], $this->author->lastname);
+        $this->assertEquals($content['data']['firstname'], $this->author->firstname);
+        $this->assertEquals($content['data']['lastname'], $this->author->lastname);
     }
 
     public function testAuthorStoreWithoutFirstname(): void
@@ -52,8 +52,8 @@ class AuthorStoreControllerTest extends TestCase
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
         ]);
-        $response->assertStatus(500);
-        $message = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('message', $message);
+        $response->assertStatus(422);
+        $content = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('errors', $content);
     }
 }
