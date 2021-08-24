@@ -42,7 +42,7 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('/author')->group(function () {
         Route::get('/list', [AuthorListController::class, '__invoke'])->name('author.list');
         Route::post('/store', [AuthorStoreController::class, '__invoke'])->name('author.store');
-        Route::get('/get/{author}', [AuthorGetController::class, '__invoke'])->name('author.get');
+        Route::get('/get/{id}', [AuthorGetController::class, '__invoke'])->name('author.get');
         Route::post('/update', [AuthorUpdateController::class, '__invoke'])->name('author.update');
         Route::post('/remove', [AuthorRemoveController::class, '__invoke'])->name('author.remove');
     });
@@ -51,16 +51,16 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('/book')->group(function () {
         Route::get('/list', [BookListController::class, '__invoke'])->name('book.list');
         Route::post('/store', [BookStoreController::class, '__invoke'])->name('book.store');
-        Route::get('/get/{book}', [BookGetController::class, '__invoke'])->name('book.get');
+        Route::get('/get/{id}', [BookGetController::class, '__invoke'])->name('book.get');
         Route::post('/update', [BookUpdateController::class, '__invoke'])->name('book.update');
-        Route::post('/remove', [BookRemoveController::class, '__invoke'])->name('book .remove');
+        Route::post('/remove', [BookRemoveController::class, '__invoke'])->name('book.remove');
     });
 
     // Category
     Route::prefix('/category')->group(function () {
         Route::get('/list', [CategoryListController::class, '__invoke'])->name('category.list');
         Route::post('/store', [CategoryStoreController::class, '__invoke'])->name('category.store');
-        Route::get('/get/{category}', [CategoryGetController::class, '__invoke'])->name('category.get');
+        Route::get('/get/{id}', [CategoryGetController::class, '__invoke'])->name('category.get');
         Route::post('/update', [CategoryUpdateController::class, '__invoke'])->name('category.update');
         Route::post('/remove', [CategoryRemoveController::class, '__invoke'])->name('category.remove');
     });
@@ -69,7 +69,7 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('/tag')->group(function () {
         Route::get('/list', [TagListController::class, '__invoke'])->name('tag.list');
         Route::post('/store', [TagStoreController::class, '__invoke'])->name('tag.store');
-        Route::get('/get/{tag}', [TagGetController::class, '__invoke'])->name('tag.get');
+        Route::get('/get/{id}', [TagGetController::class, '__invoke'])->name('tag.get');
         Route::post('/update', [TagUpdateController::class, '__invoke'])->name('tag.update');
         Route::post('/remove', [TagRemoveController::class, '__invoke'])->name('tag.remove');
     });
@@ -78,7 +78,7 @@ Route::middleware('auth:api')->group(function () {
     Route::prefix('/series')->group(function () {
         Route::get('/list', [SeriesListController::class, '__invoke'])->name('series.list');
         Route::post('/store', [SeriesStoreController::class, '__invoke'])->name('series.store');
-        Route::get('/get/{series}', [SeriesGetController::class, '__invoke'])->name('series.get');
+        Route::get('/get/{id}', [SeriesGetController::class, '__invoke'])->name('series.get');
         Route::post('/update', [SeriesUpdateController::class, '__invoke'])->name('series.update');
         Route::post('/remove', [SeriesRemoveController::class, '__invoke'])->name('series.remove');
     });
