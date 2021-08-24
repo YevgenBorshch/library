@@ -35,11 +35,12 @@ class CategoryRemoveControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(202);
+        $response->assertStatus(200);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('result', $content);
-        $this->assertTrue($content['result']);
+        $this->assertArrayHasKey('data', $content);
+        $this->assertArrayHasKey('id', $content['data']);
+        $this->assertArrayHasKey('title', $content['data']);
     }
 
     public function testCategoryRemoveWithoutId(): void
@@ -48,7 +49,7 @@ class CategoryRemoveControllerTest extends TestCase
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
         ]);
-        $response->assertStatus(500);
+        $response->assertStatus(422);
         $message = json_decode($response->getContent(), true);
         $this->assertArrayHasKey('message', $message);
     }
@@ -61,8 +62,8 @@ class CategoryRemoveControllerTest extends TestCase
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
         ]);
-        $response->assertStatus(500);
+        $response->assertStatus(422);
         $message = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('message', $message);
+        $this->assertArrayHasKey('errors', $message);
     }
 }

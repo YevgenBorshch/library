@@ -28,7 +28,7 @@ class CategoryGetControllerTest extends TestCase
     public function testCategoryGetValid(): void
     {
         $response = $this->getJson(route("category.get", [
-            'category' => $this->category->id,
+            'id' => $this->category->id,
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
@@ -38,21 +38,26 @@ class CategoryGetControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertArrayHasKey('id', $content['category']);
-        $this->assertArrayHasKey('title', $content['category']);
-        $this->assertCount(1, $content);
-        $this->assertCount(4, $content['category']);
+        $this->assertCount(1, $content['data']);
+        $this->assertArrayHasKey('id', $content['data'][0]);
+        $this->assertArrayHasKey('title', $content['data'][0]);
+        $this->assertCount(4, $content['data'][0]);
     }
 
     public function testCategoryGetWithIdInvalid(): void
     {
         $response = $this->getJson(route("category.get", [
-            'category' => 100500,
+            'id' => 100500,
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
         $response->assertStatus(404);
+
+        $content = json_decode($response->getContent(), true);
+
+        $this->assertCount(1, $content['errors']);
+        $this->assertNotEmpty($content['hash']);
     }
 }

@@ -36,10 +36,10 @@ class CategoryUpdateControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(202);
+        $response->assertStatus(200);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertTrue($content['result']);
+        $this->assertArrayHasKey('data', $content);
 
         $category = Category::find($this->category->id);
         $this->assertNotNull($category);
@@ -56,9 +56,9 @@ class CategoryUpdateControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(500);
+        $response->assertStatus(404);
 
-        $message = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('message', $message);
+        $content = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('errors', $content);
     }
 }

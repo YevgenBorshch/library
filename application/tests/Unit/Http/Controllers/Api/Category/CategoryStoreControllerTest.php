@@ -36,10 +36,10 @@ class CategoryStoreControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(202);
+        $response->assertStatus(201);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertEquals($content['result']['title'], $this->category->title);
+        $this->assertEquals($content['data']['title'], $this->category->title);
     }
 
     public function testCategoryStoreWithEmptyTitle(): void
@@ -51,10 +51,13 @@ class CategoryStoreControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(500);
+        $response->assertStatus(422);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('message', $content);
+
+        $this->assertArrayHasKey('errors', $content);
+        $this->assertCount(1, $content['errors']);
+        $this->assertNotEmpty($content, 'hash');
     }
 
     public function testCategoryStoreWithShortTitle(): void
@@ -66,9 +69,12 @@ class CategoryStoreControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(500);
+        $response->assertStatus(422);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('message', $content);
+
+        $this->assertArrayHasKey('errors', $content);
+        $this->assertCount(1, $content['errors']);
+        $this->assertNotEmpty($content, 'hash');
     }
 }
