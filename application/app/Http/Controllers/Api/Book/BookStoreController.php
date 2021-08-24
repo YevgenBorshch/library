@@ -2,14 +2,11 @@
 
 namespace App\Http\Controllers\Api\Book;
 
-use App\Exceptions\ApiArgumentException;
+use App\DTO\ResponseDTO;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Book\StoreRequest;
 use App\Repositories\Interfaces\BookRepositoryInterface;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 class BookStoreController extends Controller
 {
@@ -19,6 +16,7 @@ class BookStoreController extends Controller
     protected BookRepositoryInterface $repository;
 
     /**
+     * BookStoreController constructor
      * @param BookRepositoryInterface $repository
      */
     public function __construct(BookRepositoryInterface $repository)
@@ -27,26 +25,14 @@ class BookStoreController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param StoreRequest $request
      * @return JsonResponse
-     * @throws ApiArgumentException
-     * @throws ValidationException
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(StoreRequest $request): JsonResponse
     {
-        $value = Validator::make(
-            json_decode($request->getContent(), true),
-            (new StoreRequest())->rules()
+        return response()->json(
+            new ResponseDTO($this->repository->store($request->validated())),
+            201
         );
-
-        if ($value->fails()) {
-            throw new ApiArgumentException(
-                $this->filterErrorMessage(__CLASS__, __LINE__, $request->getContent() . '; ' . $value->errors())
-            );
-        }
-
-        return response()->json([
-            'result' => $this->repository->store($value->validated())
-        ], 202);
     }
 }

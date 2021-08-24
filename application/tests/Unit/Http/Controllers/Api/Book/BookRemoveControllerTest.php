@@ -35,11 +35,10 @@ class BookRemoveControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(202);
+        $response->assertStatus(200);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('result', $content);
-        $this->assertTrue($content['result']);
+        $this->assertArrayHasKey('data', $content);
     }
 
     public function testBookRemoveWithoutId(): void
@@ -48,9 +47,9 @@ class BookRemoveControllerTest extends TestCase
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
         ]);
-        $response->assertStatus(500);
-        $message = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('message', $message);
+        $response->assertStatus(422);
+        $content = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('errors', $content);
     }
 
     public function testBookRemoveWithEmptyId(): void
@@ -61,8 +60,8 @@ class BookRemoveControllerTest extends TestCase
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
         ]);
-        $response->assertStatus(500);
-        $message = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('message', $message);
+        $response->assertStatus(422);
+        $content = json_decode($response->getContent(), true);
+        $this->assertArrayHasKey('errors', $content);
     }
 }

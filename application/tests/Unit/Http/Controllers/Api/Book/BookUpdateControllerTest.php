@@ -26,7 +26,6 @@ class BookUpdateControllerTest extends TestCase
         $this->book = Book::factory()->create();
     }
 
-
     public function testBookUpdateWithValidData(): void
     {
         $response = $this->postJson(route("book.update"), [
@@ -38,10 +37,10 @@ class BookUpdateControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(202);
+        $response->assertStatus(200);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertTrue($content['result']);
+        $this->assertArrayHasKey('data', $content);
 
         $book = Book::find($this->book->id);
         $this->assertNotNull($book);
@@ -59,9 +58,9 @@ class BookUpdateControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(500);
+        $response->assertStatus(404);
 
         $message = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('message', $message);
+        $this->assertArrayHasKey('errors', $message);
     }
 }

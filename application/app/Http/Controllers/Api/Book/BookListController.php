@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api\Book;
 
+use App\DTO\ResponseDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ListRequest;
 use App\Repositories\Interfaces\BookRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 class BookListController extends Controller
 {
@@ -15,6 +16,7 @@ class BookListController extends Controller
     protected BookRepositoryInterface $repository;
 
     /**
+     * BookRemoveController constructor
      * @param BookRepositoryInterface $repository
      */
     public function __construct(BookRepositoryInterface $repository)
@@ -22,12 +24,15 @@ class BookListController extends Controller
         $this->repository = $repository;
     }
 
+
     /**
-     * @param Request $request
+     * @param ListRequest $request
      * @return JsonResponse
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(ListRequest $request): JsonResponse
     {
-        return $this->list($request, $this->repository);
+        return response()->json(
+            new ResponseDTO($this->repository->list($request))
+        );
     }
 }
