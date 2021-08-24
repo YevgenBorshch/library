@@ -4,12 +4,11 @@
 namespace App\Http\Controllers\Api\Category;
 
 
-use App\Exceptions\ApiArgumentException;
+use App\DTO\ResponseDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateRequest;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpFoundation\Request;
 
 class CategoryUpdateController extends Controller
 {
@@ -19,7 +18,7 @@ class CategoryUpdateController extends Controller
     protected CategoryRepositoryInterface $repository;
 
     /**
-     * AuthorController constructor.
+     * CategoryUpdateController constructor.
      * @param CategoryRepositoryInterface $repository
      */
     public function __construct(CategoryRepositoryInterface $repository)
@@ -28,13 +27,13 @@ class CategoryUpdateController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param UpdateRequest $request
      * @return JsonResponse
-     * @throws ApiArgumentException
-     * @throws ValidationException
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(UpdateRequest $request): JsonResponse
     {
-        return $this->update($request, $this->repository);
+        return response()->json(
+            new ResponseDTO($this->repository->update($request->validated()))
+        );
     }
 }

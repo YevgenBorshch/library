@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api\Category;
 
-use App\Exceptions\ApiArgumentException;
+use App\DTO\ResponseDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RemoveRequest;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpFoundation\Request;
 
 
 class CategoryRemoveController extends Controller
@@ -18,7 +17,7 @@ class CategoryRemoveController extends Controller
     protected CategoryRepositoryInterface $repository;
 
     /**
-     * CategoryStoreController constructor.
+     * CategoryRemoveController constructor.
      * @param CategoryRepositoryInterface $repository
      */
     public function __construct(CategoryRepositoryInterface $repository)
@@ -27,13 +26,13 @@ class CategoryRemoveController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param RemoveRequest $request
      * @return JsonResponse
-     * @throws ApiArgumentException
-     * @throws ValidationException
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(RemoveRequest $request): JsonResponse
     {
-        return $this->remove($request, $this->repository);
+        return response()->json(
+            new ResponseDTO($this->repository->remove($request->get('id')))
+        );
     }
 }

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Api\Category;
 
-use App\Exceptions\ApiArgumentException;
+use App\DTO\ResponseDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\StoreRequest;
 use App\Repositories\Interfaces\CategoryRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
-use Illuminate\Validation\ValidationException;
 
 class CategoryStoreController extends Controller
 {
@@ -26,13 +25,14 @@ class CategoryStoreController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param StoreRequest $request
      * @return JsonResponse
-     * @throws ValidationException
-     * @throws ApiArgumentException
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(StoreRequest $request): JsonResponse
     {
-        return $this->store($request, $this->repository);
+        return response()->json(
+            new ResponseDTO($this->repository->store($request->validated())),
+            201
+        );
     }
 }
