@@ -58,11 +58,11 @@ class TagListControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(500);
+        $response->assertStatus(404);
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertArrayHasKey('message', $content);
+        $this->assertArrayHasKey('data', $content);
     }
 
     public function testTagListWithoutPerPage(): void

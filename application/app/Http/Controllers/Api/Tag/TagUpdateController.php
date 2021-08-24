@@ -4,12 +4,11 @@
 namespace App\Http\Controllers\Api\Tag;
 
 
-use App\Exceptions\ApiArgumentException;
+use App\DTO\ResponseDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UpdateRequest;
 use App\Repositories\Interfaces\TagRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpFoundation\Request;
 
 class TagUpdateController extends Controller
 {
@@ -19,7 +18,7 @@ class TagUpdateController extends Controller
     protected TagRepositoryInterface $repository;
 
     /**
-     * TagStoreController constructor.
+     * TagUpdateController constructor.
      * @param TagRepositoryInterface $repository
      */
     public function __construct(TagRepositoryInterface $repository)
@@ -28,13 +27,13 @@ class TagUpdateController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param UpdateRequest $request
      * @return JsonResponse
-     * @throws ApiArgumentException
-     * @throws ValidationException
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(UpdateRequest $request): JsonResponse
     {
-        return $this->update($request, $this->repository);
+        return response()->json(
+            new ResponseDTO($this->repository->update($request->validated()))
+        );
     }
 }

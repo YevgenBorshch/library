@@ -37,10 +37,10 @@ class TagStoreControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(202);
+        $response->assertStatus(201);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertEquals($content['result']['title'], $this->tag->title);
+        $this->assertEquals($content['data']['title'], $this->tag->title);
     }
 
     public function testTagStoreWithEmptyTitle(): void
@@ -52,10 +52,10 @@ class TagStoreControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(500);
+        $response->assertStatus(422);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('message', $content);
+        $this->assertArrayHasKey('errors', $content);
     }
 
     public function testTagStoreWithShortTitle(): void
@@ -67,9 +67,9 @@ class TagStoreControllerTest extends TestCase
             'Authorization' => 'Bearer ' . $this->token
         ]);
 
-        $response->assertStatus(500);
+        $response->assertStatus(422);
 
         $content = json_decode($response->getContent(), true);
-        $this->assertArrayHasKey('message', $content);
+        $this->assertArrayHasKey('errors', $content);
     }
 }

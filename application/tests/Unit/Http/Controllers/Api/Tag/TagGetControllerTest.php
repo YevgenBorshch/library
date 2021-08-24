@@ -29,7 +29,7 @@ class TagGetControllerTest extends TestCase
     public function testTagGetValid(): void
     {
         $response = $this->getJson(route("tag.get", [
-            'tag' => $this->tag->id,
+            'id' => $this->tag->id,
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token
@@ -39,16 +39,16 @@ class TagGetControllerTest extends TestCase
 
         $content = json_decode($response->getContent(), true);
 
-        $this->assertArrayHasKey('id', $content['tag']);
-        $this->assertArrayHasKey('title', $content['tag']);
-        $this->assertCount(1, $content);
-        $this->assertCount(4, $content['tag']);
+        $this->assertArrayHasKey('id', $content['data'][0]);
+        $this->assertArrayHasKey('title', $content['data'][0]);
+        $this->assertCount(3, $content);
+        $this->assertCount(1, $content['data']);
     }
 
     public function testTagGetWithIdInvalid(): void
     {
         $response = $this->getJson(route("tag.get", [
-            'tag' => 100500,
+            'id' => 100500,
         ]), [
             'Accept' => 'application/json',
             'Authorization' => 'Bearer ' . $this->token

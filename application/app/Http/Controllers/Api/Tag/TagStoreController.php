@@ -4,14 +4,11 @@
 namespace App\Http\Controllers\Api\Tag;
 
 
-use App\Exceptions\ApiArgumentException;
+use App\DTO\ResponseDTO;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Category_Series_Tag\StoreRequest;
+use App\Http\Requests\StoreRequest;
 use App\Repositories\Interfaces\TagRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\ValidationException;
-use Symfony\Component\HttpFoundation\Request;
 
 class TagStoreController extends Controller
 {
@@ -30,13 +27,14 @@ class TagStoreController extends Controller
     }
 
     /**
-     * @param Request $request
+     * @param StoreRequest $request
      * @return JsonResponse
-     * @throws ValidationException
-     * @throws ApiArgumentException
      */
-    public function __invoke(Request $request): JsonResponse
+    public function __invoke(StoreRequest $request): JsonResponse
     {
-        return $this->store($request, $this->repository);
+        return response()->json(
+            new ResponseDTO($this->repository->store($request->validated())),
+            201
+        );
     }
 }

@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\Api\Tag;
 
+use App\DTO\ResponseDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RemoveRequest;
 use App\Repositories\Interfaces\TagRepositoryInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 class TagRemoveController extends Controller
 {
@@ -15,6 +16,7 @@ class TagRemoveController extends Controller
     protected TagRepositoryInterface $repository;
 
     /**
+     * TagRemoveController constructor.
      * @param TagRepositoryInterface $repository
      */
     public function __construct(TagRepositoryInterface $repository)
@@ -22,8 +24,14 @@ class TagRemoveController extends Controller
         $this->repository = $repository;
     }
 
-    public function __invoke(Request $request): JsonResponse
+    /**
+     * @param RemoveRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function __invoke(RemoveRequest $request): JsonResponse
     {
-        return $this->remove($request, $this->repository);
+        return response()->json(
+            new ResponseDTO($this->repository->remove($request->get('id')))
+        );
     }
 }

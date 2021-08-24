@@ -4,10 +4,11 @@
 namespace App\Http\Controllers\Api\Tag;
 
 
+use App\DTO\ResponseDTO;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\ListRequest;
 use App\Repositories\Interfaces\TagRepositoryInterface;
 use Illuminate\Http\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 
 class TagListController extends Controller
 {
@@ -17,6 +18,7 @@ class TagListController extends Controller
     protected TagRepositoryInterface $repository;
 
     /**
+     * TagListController constructor.
      * @param TagRepositoryInterface $repository
      */
     public function __construct(TagRepositoryInterface $repository)
@@ -24,8 +26,14 @@ class TagListController extends Controller
         $this->repository = $repository;
     }
 
-    public function __invoke(Request $request): JsonResponse
+    /**
+     * @param ListRequest $request
+     * @return JsonResponse
+     */
+    public function __invoke(ListRequest $request): JsonResponse
     {
-        return $this->list($request, $this->repository);
+        return response()->json(
+            new ResponseDTO($this->repository->list($request))
+        );
     }
 }
