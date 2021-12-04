@@ -15,6 +15,8 @@ class Category extends AdminModel
 {
     use HasFactory, Notifiable;
 
+    protected $table = 'categories';
+
     /**
      * @var string[]
      */

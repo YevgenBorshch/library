@@ -14,6 +14,8 @@ class Series extends AdminModel
 {
     use HasFactory, Notifiable;
 
+    protected $table = 'series';
+
     /**
      * @var string[]
      */

@@ -13,6 +13,11 @@ class Book extends AdminModel
     use HasFactory, Notifiable;
 
     /**
+     * @var string
+     */
+    protected $table = 'books';
+
+    /**
      * @var string[]
      */
     protected $fillable = [
@@ -23,6 +28,7 @@ class Book extends AdminModel
         'image',
         'pages',
         'readed',
+        'source',
         'title',
         'year',
     ];

@@ -17,6 +17,8 @@ class Author extends AdminModel
 {
     use HasFactory, Notifiable;
 
+    protected $table = 'authors';
+
     /**
      * @var string[]
      */
