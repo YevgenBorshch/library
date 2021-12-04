@@ -19,6 +19,7 @@ use App\Http\Controllers\Api\Category\CategoryListController;
 use App\Http\Controllers\Api\Category\CategoryRemoveController;
 use App\Http\Controllers\Api\Category\CategoryStoreController;
 use App\Http\Controllers\Api\Category\CategoryUpdateController;
+use App\Http\Controllers\Api\Import\ImportBookController;
 use App\Http\Controllers\Api\Series\SeriesGetController;
 use App\Http\Controllers\Api\Series\SeriesListController;
 use App\Http\Controllers\Api\Series\SeriesRemoveController;
@@ -87,6 +88,8 @@ Route::namespace('api')->group(function () {
         Route::post('/update',  [SeriesUpdateController::class, '__invoke'])->name('series.update');
         Route::post('/remove',  [SeriesRemoveController::class, '__invoke'])->name('series.remove');
     });
+
+    Route::post('/import',       [ImportBookController::class, '__invoke'])->name('import.book');
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {
