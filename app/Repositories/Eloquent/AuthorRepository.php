@@ -5,7 +5,6 @@ namespace App\Repositories\Eloquent;
 
 
 use App\DTO\ListDTO;
-use App\Exceptions\ApiArgumentException;
 use App\Models\Author;
 use App\Repositories\Interfaces\AuthorRepositoryInterface;
 use Illuminate\Pagination\Paginator;

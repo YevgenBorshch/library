@@ -4,11 +4,16 @@ namespace App\Services\Import\FileType;
 
 use App\Services\Book\Builder\Classes\Book;
 
-interface FileTypeInterface
+class Html implements FileTypeInterface
 {
+    const FILE_TYPE = 'html';
+
     /**
      * @param Book $book
      * @return bool
      */
-    public function save(Book &$book): bool;
+    public function save(Book $book): bool
+    {
+        return true;
+    }
 }

@@ -4,10 +4,8 @@ namespace App\Repositories\Eloquent;
 
 use App\Models\Book;
 use App\Repositories\Interfaces\BookRepositoryInterface;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
-use Symfony\Component\HttpFoundation\Request;
+use Illuminate\Support\Facades\Log;
 
 class BookRepository extends BaseRepository implements BookRepositoryInterface
 {
@@ -25,20 +23,24 @@ class BookRepository extends BaseRepository implements BookRepositoryInterface
      */
     public function store(array $value): Model
     {
-        $book = $this->model::create($value);
-
-        if (isset($value['author'])) {
-            foreach ($value['author'] as $author) {
-                $book->authors()->attach($author);
+        try {
+            $book = [];
+            if (isset($value['category_id'])) {
+                $book['category_id'] = $value['category_id'];
             }
-        }
+            $book['current_page'] = 0;
+            $book['description'] = $value['description'];
+            $book['image'] = $value['filename'] . '.' . $value['imageType'];
+            $book['pages'] = $value['pages'];
+            $book['readed'] = 0;
+            $book['source'] = 0;
+            $book['title'] = $value['title'];
+            $book['year'] = $value['year'];
 
-        if (isset($value['tag'])) {
-            foreach ($value['tag'] as $tag) {
-                $book->tags()->attach($tag);
-            }
+            return $this->model::create($book);
+        } catch (\Exception $e) {
+            Log::critical(__METHOD__, [__LINE__ => $e->getMessage()]);
         }
-
-        return $book;
+        return new Book();
     }
 }

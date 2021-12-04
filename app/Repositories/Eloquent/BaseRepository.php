@@ -58,6 +58,19 @@ class BaseRepository
      */
     public function list(Request $request): ListDTO
     {
+        if ($request->get('all') && $request->get('all') === 'true') {
+            return $this->all();
+        }
+        return $this->withPagination($request);
+    }
+
+    /**
+     * @param Request $request
+     * @return ListDTO
+     * @throws ApiArgumentException
+     */
+    protected function withPagination(Request $request): ListDTO
+    {
         $currentPage = $request->get('currentPage', 1);
         $perPage = $request->get('perPage', 10);
         $orderBy = $request->get('orderBy', 'desc');
@@ -82,6 +95,21 @@ class BaseRepository
             $value->lastPage(),
             $orderBy,
             $value->items(),
+        );
+    }
+
+    /**
+     * @return ListDTO
+     */
+    protected function all(): ListDTO
+    {
+        return new ListDTO(
+            0,
+            0,
+            0,
+            0,
+            '',
+            $this->model::all()->toArray(),
         );
     }
 
