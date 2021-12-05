@@ -37,10 +37,10 @@ class ImageService implements ImageInterface
             $size = Book::IMAGE;
             $image = Image::make('/tmp/' . $book->filename);
 
-            $image_s = $image->resize($size['small'][0], null, function ($constraint) {
+            $image->resize($size['small'][0], null, function ($constraint) {
                 $constraint->aspectRatio();
             });
-            $image_s->save(public_path('images/books/s_') . $book->filename . '.' . $book->imageType, 100);
+            $image->save(public_path('images/books/') . $book->filename . '.' . $book->imageType, 100);
 
             if (file_exists('/tmp/' . $book->filename)) {
                 unlink('/tmp/' . $book->filename);

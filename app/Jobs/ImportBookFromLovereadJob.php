@@ -3,7 +3,6 @@
 namespace App\Jobs;
 
 use App\Repositories\Eloquent\BookRepository;
-use App\Services\Http\HttpClient;
 use App\Services\Import\BookServiceInterface;
 use App\Services\Import\FileType\PDF;
 use App\Services\Import\Parser\Sites\Loveread;
@@ -13,7 +12,6 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Support\Facades\Log;
 use Symfony\Component\HttpFoundation\Request;
 
 class ImportBookFromLovereadJob implements ShouldQueue, ShouldBeUnique
@@ -62,6 +60,5 @@ class ImportBookFromLovereadJob implements ShouldQueue, ShouldBeUnique
             unset($book->context);
             (new BookRepository())->store((array) $book);
         }
-//        unset($book);
     }
 }

@@ -9,6 +9,7 @@ use App\Models\Author;
 use App\Repositories\Interfaces\AuthorRepositoryInterface;
 use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\DB;
+use stdClass;
 use Symfony\Component\HttpFoundation\Request;
 
 class AuthorRepository extends BaseRepository implements AuthorRepositoryInterface
@@ -57,5 +58,18 @@ class AuthorRepository extends BaseRepository implements AuthorRepositoryInterfa
             '',
             $value->items(),
         );
+    }
+
+    /**
+     * @param stdClass $preparatedAuthors
+     * @return array|string
+     */
+    public function getOrCreate(stdClass $preparatedAuthors): array
+    {
+        $result = [];
+        foreach ($preparatedAuthors->values as $value) {
+            $result[] = $this->model::firstOrCreate($value);
+        }
+        return $result;
     }
 }
