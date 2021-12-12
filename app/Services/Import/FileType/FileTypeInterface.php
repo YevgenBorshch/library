@@ -2,7 +2,7 @@
 
 namespace App\Services\Import\FileType;
 
-use App\Services\Book\Builder\Classes\Book;
+use App\ValueObject\Book;
 
 interface FileTypeInterface
 {

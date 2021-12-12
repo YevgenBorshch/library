@@ -2,7 +2,7 @@
 
 namespace App\Services\Book\Builder;
 
-use App\Services\Book\Builder\Classes\Book;
+use App\ValueObject\Book;
 use App\Services\Book\Builder\Interfaces\BookBuilderInterface;
 
 class BookBuilder implements BookBuilderInterface
@@ -118,39 +118,6 @@ class BookBuilder implements BookBuilderInterface
     public function setUrlToImage(string $urlToImage): BookBuilderInterface
     {
         $this->book->urlToImage = $urlToImage;
-
-        return $this;
-    }
-
-    /**
-     * @param string $filename
-     * @return BookBuilderInterface
-     */
-    public function setFilename(string $filename): BookBuilderInterface
-    {
-        $this->book->filename = $filename;
-
-        return $this;
-    }
-
-    /**
-     * @param string $fileType
-     * @return BookBuilderInterface
-     */
-    public function setFileType(string $fileType): BookBuilderInterface
-    {
-        $this->book->fileType = $fileType;
-
-        return $this;
-    }
-
-    /**
-     * @param string $imageType
-     * @return BookBuilderInterface
-     */
-    public function setImageType(string $imageType): BookBuilderInterface
-    {
-        $this->book->imageType = $imageType;
 
         return $this;
     }

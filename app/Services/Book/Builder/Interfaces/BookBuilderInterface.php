@@ -2,7 +2,8 @@
 
 namespace App\Services\Book\Builder\Interfaces;
 
-use App\Services\Book\Builder\Classes\Book;
+
+use App\ValueObject\Book;
 
 interface BookBuilderInterface
 {
@@ -34,24 +35,6 @@ interface BookBuilderInterface
      * @return BookBuilderInterface
      */
     public function setPages(int $pages): BookBuilderInterface;
-
-    /**
-     * @param string $filename
-     * @return BookBuilderInterface
-     */
-    public function setFilename(string $filename): BookBuilderInterface;
-
-    /**
-     * @param string $fileType
-     * @return BookBuilderInterface
-     */
-    public function setFileType(string $fileType): BookBuilderInterface;
-
-    /**
-     * @param string $imageType
-     * @return BookBuilderInterface
-     */
-    public function setImageType(string $imageType): BookBuilderInterface;
 
     /**
      * @param int $year

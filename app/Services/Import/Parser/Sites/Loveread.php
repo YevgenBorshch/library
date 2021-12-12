@@ -3,19 +3,17 @@
 namespace App\Services\Import\Parser\Sites;
 
 use App\Services\Book\Builder\BookBuilder;
-use App\Services\Book\Builder\Classes\Book;
 use App\Services\Http\HttpClient;
 use App\Services\Http\HttpClientInterface;
 use App\Services\Images\ImageService;
 use App\Services\Import\Parser\ParserInterface;
-use App\Traits\FileNameGenerate;
+use App\ValueObject\Book;
 use DOMDocument;
 use DOMXPath;
 use GuzzleHttp\Exception\GuzzleException;
 
 class Loveread implements ParserInterface
 {
-    use FileNameGenerate;
 
     const LOVEREAD_HOST = 'http://loveread.ec/';
 
@@ -121,22 +119,11 @@ class Loveread implements ParserInterface
         $linkToImage = $imageDiv->item(0)->getAttribute('src');
         $builder->setUrlToImage($linkToImage);
 
-        // Filename
-        $filename = $this->getFileName();
-        $builder->setFileName(
-            $filename
-        );
-
-        // Image download, save and set name in variable
-        $builder->setImageType(
-            substr($linkToImage, strpos($linkToImage, '.') + 1)
-        );
-
         // Get book
         $book = $builder->getBook();
 
         // Image download
-        (new ImageService())->download($book);
+        (new ImageService(self::LOVEREAD_HOST))->download($book);
 
         return $book;
     }

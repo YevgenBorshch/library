@@ -3,7 +3,7 @@
 namespace App\Services\Import\Parser;
 
 
-use App\Services\Book\Builder\Classes\Book;
+use App\ValueObject\Book;
 
 interface ParserInterface
 {

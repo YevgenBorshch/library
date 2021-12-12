@@ -1,7 +1,9 @@
 <?php
+declare( strict_types = 1 );
 
 namespace App\Repositories\Eloquent;
 
+use App\Exceptions\ApiArgumentException;
 use App\Models\Book;
 use App\Repositories\Interfaces\BookRepositoryInterface;
 use Illuminate\Database\Eloquent\Model;
@@ -39,14 +41,14 @@ class BookRepository extends BaseRepository implements BookRepositoryInterface
 
             $book['current_page'] = 0;
             $book['description'] = $value['description'];
-            $book['image'] = $value['filename'] . '.' . $value['imageType'];
             $book['pages'] = $value['pages'];
             $book['readed'] = 0;
             $book['source'] = 0;
             $book['title'] = $value['title'];
             $book['year'] = $value['year'];
 
-            $savedBook =  $this->model::create($book);
+            $savedBook = $this->model::create($book);
+            $id = $savedBook->id;
 
             // Authors
             $arrayAuthorModels = (new AuthorRepository())->getOrCreate(
@@ -57,11 +59,35 @@ class BookRepository extends BaseRepository implements BookRepositoryInterface
                 $savedBook->authors()->attach($arrayAuthorModel->id);
             }
 
+            if ($value['file']) {
+                $this->storeFile((array) $value['file'], $id, 'context');
+            }
+
+            if ($value['image']) {
+                $this->storeFile((array) $value['image'], $id, 'image');
+            }
+
             return $savedBook;
         } catch (\Exception $e) {
             Log::critical(__METHOD__, [__LINE__ => $e->getMessage()]);
         }
         return new Book();
+    }
+
+    /**
+     * @throws ApiArgumentException
+     */
+    public function storeFile(array $file, int $bookId, string $type): Model
+    {
+        $forStore = [
+            'book_id' => $bookId,
+            'filename' => $file['filename'],
+            'image' => $type === 'image' ? 1 : 0,
+            'context' => $type === 'context' ? 1 : 0,
+            'extension' => $file['extension'],
+        ];
+
+        return (new FileRepository())->store($forStore);
     }
 
     public function preparationAuthors(array $values): stdClass

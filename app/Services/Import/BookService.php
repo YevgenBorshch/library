@@ -3,9 +3,9 @@
 namespace App\Services\Import;
 
 
-use App\Services\Book\Builder\Classes\Book;
 use App\Services\Import\FileType\FileTypeInterface;
 use App\Services\Import\Parser\ParserInterface;
+use App\ValueObject\Book;
 
 class BookService implements BookServiceInterface
 {

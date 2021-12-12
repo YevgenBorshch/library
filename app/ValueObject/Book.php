@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Services\Book\Builder\Classes;
+namespace App\ValueObject;
 
+/**
+ * @property $filename
+ */
 class Book
 {
     const BOOK_FORM = 1;
@@ -10,14 +13,6 @@ class Book
     const BOOK_SRC = [
         self::BOOK_FORM,
         self::BOOK_IMPORT
-    ];
-
-    const IMAGE_BIG = [550, 800];
-    const IMAGE_SMALL = [200, 300];
-
-    const IMAGE = [
-        'big' => self::IMAGE_BIG,
-        'small' => self::IMAGE_SMALL
     ];
 
     /**
@@ -34,21 +29,6 @@ class Book
      * @var string
      */
     public string $description;
-
-    /**
-     * @var string
-     */
-    public string $filename;
-
-    /**
-     * @var string
-     */
-    public string $fileType;
-
-    /**
-     * @var string
-     */
-    public string $imageType;
 
     /**
      * @var int
@@ -84,4 +64,14 @@ class Book
      * @var int
      */
     public int $year;
+
+    /**
+     * @var File
+     */
+    public File $file;
+
+    /**
+     * @var Image
+     */
+    public Image $image;
 }
