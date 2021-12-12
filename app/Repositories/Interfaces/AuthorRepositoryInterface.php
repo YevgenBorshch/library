@@ -1,8 +1,7 @@
 <?php
-
+declare( strict_types = 1 );
 
 namespace App\Repositories\Interfaces;
-
 
 use Symfony\Component\HttpFoundation\Request;
 
