@@ -19,7 +19,6 @@ class CreateBooksTable extends Migration
             $table->integer('series_id')->nullable();
             $table->integer('current_page')->nullable();
             $table->text('description')->nullable();
-            $table->string('image')->nullable();
             $table->integer('pages')->nullable();
             $table->boolean('readed')->default(false);
             $table->string('title');
