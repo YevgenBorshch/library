@@ -2,14 +2,28 @@
 
 namespace App\Services\Import\FileType;
 
-use App\Services\Book\Builder\Classes\Book;
+use App\Traits\FileNameGenerate;
+use App\ValueObject\Book;
+use App\ValueObject\File;
 use Illuminate\Support\Facades\Log;
 use Mpdf\Mpdf;
 use Mpdf\MpdfException;
 
 class PDF implements FileTypeInterface
 {
-    const FILE_TYPE = 'pdf';
+    use FileNameGenerate;
+
+    const EXTENSION = 'pdf';
+
+    /**
+     * @var string
+     */
+    public string $filename;
+
+    public function __construct()
+    {
+        $this->filename = $this->getFileName();
+    }
 
     /**
      * @throws MpdfException
@@ -38,7 +52,12 @@ class PDF implements FileTypeInterface
         $book->pages = $mpdf->page;
 
         try {
-            $mpdf->Output(public_path('/storage/' . $book->filename . '.pdf'),'F');
+            $path = public_path(sprintf("/storage/%s.pdf", $this->filename));
+            $mpdf->Output($path,'F');
+            $book->file = new File();
+            $book->file->filename = $this->filename;
+            $book->file->extension = self::EXTENSION;
+            $book->file->size = filesize($path);
 
             return true;
         } catch (\Exception $e) {

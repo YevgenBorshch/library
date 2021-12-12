@@ -4,7 +4,7 @@ namespace App\Services\Import\FileType;
 
 use App\ValueObject\Book;
 
-class Html implements FileTypeInterface
+class Raw implements FileTypeInterface
 {
     /**
      * @param Book $book
