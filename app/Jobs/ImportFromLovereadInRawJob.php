@@ -5,16 +5,16 @@ namespace App\Jobs;
 use App\Repositories\Eloquent\BookRepository;
 use App\Services\Import\BookServiceInterface;
 use App\Services\Import\FileType\PDF;
+use App\Services\Import\FileType\Raw;
 use App\Services\Import\Parser\Sites\Loveread;
 use Illuminate\Bus\Queueable;
-use Illuminate\Contracts\Queue\ShouldBeUnique;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Symfony\Component\HttpFoundation\Request;
 
-class ImportBookFromLovereadJob implements ShouldQueue, ShouldBeUnique
+class ImportFromLovereadInRawJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -55,10 +55,10 @@ class ImportBookFromLovereadJob implements ShouldQueue, ShouldBeUnique
         $parser->setUrlToBookInformation($this->url);
 
         $book = $this->bookService->createBook($parser);
-        $saveToFile = $this->bookService->saveTo(new PDF(), $book);
-        if ($saveToFile) {
-            unset($book->context);
-            (new BookRepository())->store((array) $book);
-        }
+        $context = $book->context;
+        unset($book->context);
+        $savedBook = (new BookRepository())->store((array) $book);
+
+        $saveToFile = $this->bookService->saveTo(new Raw(), $book);
     }
 }
