@@ -3,7 +3,6 @@
 namespace App\Services\Images;
 
 
-
 use App\ValueObject\Book;
 
 interface ImageInterface

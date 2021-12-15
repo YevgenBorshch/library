@@ -88,5 +88,4 @@ class ImageService implements ImageInterface
             throw new Exception($e->getMessage());
         }
     }
-
 }
