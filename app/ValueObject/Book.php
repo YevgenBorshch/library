@@ -16,6 +16,11 @@ class Book
     ];
 
     /**
+     * @var int
+     */
+    public int $id;
+
+    /**
      * @var array
      */
     public array $author = [];

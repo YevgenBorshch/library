@@ -59,11 +59,11 @@ class BookRepository extends BaseRepository implements BookRepositoryInterface
                 $savedBook->authors()->attach($arrayAuthorModel->id);
             }
 
-            if ($value['file']) {
+            if (isset($value['file'])) {
                 $this->storeFile((array) $value['file'], $id, 'context');
             }
 
-            if ($value['image']) {
+            if (isset($value['image'])) {
                 $this->storeFile((array) $value['image'], $id, 'image');
             }
 
