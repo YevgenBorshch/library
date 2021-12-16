@@ -10,9 +10,17 @@ class Book
     const BOOK_FORM = 1;
     const BOOK_IMPORT = 2;
 
+    const BOOK_IMPORT_TYPE_RAW = 'raw';
+    const BOOK_IMPORT_TYPE_PDF = 'pdf';
+
     const BOOK_SRC = [
         self::BOOK_FORM,
         self::BOOK_IMPORT
+    ];
+
+    const BOOK_IMPORT_TYPE = [
+        self::BOOK_IMPORT_TYPE_RAW,
+        self::BOOK_IMPORT_TYPE_PDF
     ];
 
     /**
@@ -54,6 +62,11 @@ class Book
      * @var string
      */
     public string $title;
+
+    /**
+     * @var string
+     */
+    public string $type;
 
     /**
      * @return string

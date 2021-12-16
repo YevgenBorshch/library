@@ -30,6 +30,7 @@ class Book extends AdminModel
         'readed',
         'source',
         'title',
+        'type',
         'year',
     ];
 

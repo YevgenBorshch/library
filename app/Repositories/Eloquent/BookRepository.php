@@ -45,6 +45,7 @@ class BookRepository extends BaseRepository implements BookRepositoryInterface
             $book['readed'] = 0;
             $book['source'] = 0;
             $book['title'] = $value['title'];
+            $book['type'] = $value['type'];
             $book['year'] = $value['year'];
 
             $savedBook = $this->model::create($book);

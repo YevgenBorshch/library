@@ -55,6 +55,7 @@ class ImportFromLovereadInRawJob implements ShouldQueue
         $parser = new Loveread();
         $parser->setUrlToBookInformation($this->url);
         $book = $this->bookService->createBook($parser);
+        $book->type = 'raw';
 
         // Move context to variable
         $context = $book->context;

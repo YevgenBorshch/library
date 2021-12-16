@@ -55,6 +55,7 @@ class ImportFromLovereadInPdfJob implements ShouldQueue, ShouldBeUnique
         $parser->setUrlToBookInformation($this->url);
 
         $book = $this->bookService->createBook($parser);
+        $book->type = 'pdf';
         $saveToFile = $this->bookService->saveTo(new PDF(), $book);
         if ($saveToFile) {
             unset($book->context);
