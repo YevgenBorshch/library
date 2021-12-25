@@ -4,6 +4,7 @@
 namespace App\Http\Controllers\Api\Import;
 
 
+use App\Exceptions\ApiArgumentException;
 use App\Http\Controllers\Controller;
 use App\Jobs\ImportFromLovereadInPdfJob;
 use App\Jobs\ImportFromLovereadInRawJob;
@@ -29,7 +30,10 @@ class ImportBookController extends Controller
                 $job = new ImportFromLovereadInRawJob(new BookService(), $request);
                 break;
             default:
-                throw new Exception('This field "type" is not valid');
+                throw new ApiArgumentException(
+                    $this->filterErrorMessage(__METHOD__ . ', ' . trans('api.import.type')),
+                'data => ' . json_encode($request->all())
+                );
         }
 
         dispatch($job->onQueue('import'));

@@ -12,5 +12,8 @@ return [
     'error' => [
         'database' => 'error in database request',
         'database_store' => 'error while saving to database'
+    ],
+    'import' => [
+        'type' => 'this field "type" is not valid'
     ]
 ];
