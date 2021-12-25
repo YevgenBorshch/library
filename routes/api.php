@@ -89,7 +89,13 @@ Route::namespace('api')->group(function () {
         Route::post('/remove',  [SeriesRemoveController::class, '__invoke'])->name('series.remove');
     });
 
-    Route::post('/import',       [ImportBookController::class, '__invoke'])->name('import.book');
+    // Import
+    Route::post('/import',      [ImportBookController::class, '__invoke'])->name('import.book');
+
+    // Watch
+    Route::prefix('/watch')->group(function () {
+        Route::post('/store',   [WatchStoreController::class, '__invoke'])->name('watch.store');
+    });
 });
 
 Route::middleware('auth:api')->get('/user', function (Request $request) {

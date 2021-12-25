@@ -5,7 +5,7 @@ namespace App\Services\Import\Parser\Sites;
 use App\Services\Book\Builder\BookBuilder;
 use App\Services\Http\HttpClient;
 use App\Services\Http\HttpClientInterface;
-use App\Services\Images\ImageService;
+use App\Services\Image\ImageService;
 use App\Services\Import\Parser\ParserInterface;
 use App\ValueObject\Book;
 use DOMDocument;

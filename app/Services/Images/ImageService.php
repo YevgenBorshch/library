@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Images;
+namespace App\Services\Image;
 
 
 use App\Traits\FileNameGenerate;
