@@ -5,6 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
 
+/**
+ * @method static chunk(int $int, \Closure $param)
+ * @method static where(string $string, bool $true)
+ * @method static count()
+ */
 class WatchAuthor extends AdminModel
 {
     use HasFactory, Notifiable;
@@ -17,5 +22,7 @@ class WatchAuthor extends AdminModel
     protected $fillable = [
         'firstname',
         'lastname',
+        'url',
+        'active'
     ];
 }

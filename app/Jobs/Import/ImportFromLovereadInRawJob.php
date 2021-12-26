@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Import;
 
 use App\Repositories\Eloquent\BookRepository;
 use App\Repositories\Eloquent\ContextRepository;

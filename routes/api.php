@@ -30,6 +30,7 @@ use App\Http\Controllers\Api\Tag\TagListController;
 use App\Http\Controllers\Api\Tag\TagRemoveController;
 use App\Http\Controllers\Api\Tag\TagStoreController;
 use App\Http\Controllers\Api\Tag\TagUpdateController;
+use App\Http\Controllers\Api\Watch\WatchStoreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 

@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Jobs\Watch\MessageType\Preparation;
+use App\Jobs\Watch\WatchAuthorsFromLovereadJob;
 use Illuminate\Console\Command;
 
 class WatchAuthors extends Command
@@ -11,14 +13,14 @@ class WatchAuthors extends Command
      *
      * @var string
      */
-    protected $signature = 'command:name';
+    protected $signature = 'watch:run';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'Command description';
+    protected $description = 'Command run check from sites a new books. Authors saved in database';
 
     /**
      * Create a new command instance.
@@ -35,8 +37,11 @@ class WatchAuthors extends Command
      *
      * @return int
      */
-    public function handle()
+    public function handle(): int
     {
+        $job = new WatchAuthorsFromLovereadJob(new Preparation());
+        dispatch($job->onQueue('watch'));
+
         return Command::SUCCESS;
     }
 }

@@ -6,8 +6,8 @@ namespace App\Http\Controllers\Api\Import;
 
 use App\Exceptions\ApiArgumentException;
 use App\Http\Controllers\Controller;
-use App\Jobs\ImportFromLovereadInPdfJob;
-use App\Jobs\ImportFromLovereadInRawJob;
+use App\Jobs\Import\ImportFromLovereadInPdfJob;
+use App\Jobs\Import\ImportFromLovereadInRawJob;
 use App\Services\Import\BookService;
 use Exception;
 use Illuminate\Http\JsonResponse;

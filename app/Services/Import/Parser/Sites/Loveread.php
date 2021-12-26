@@ -14,9 +14,6 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class Loveread implements ParserInterface
 {
-
-    const LOVEREAD_HOST = 'http://loveread.ec/';
-
     /**
      * @var int
      */
@@ -53,7 +50,7 @@ class Loveread implements ParserInterface
     public function getBookInformation(): Book
     {
         // Set book id on Loveread
-        $this->bookIdOnLoveared = str_replace(self::LOVEREAD_HOST . 'view_global.php?id=', '', $this->urlToBookInformation);
+        $this->bookIdOnLoveared = str_replace(env('LOVEREAD_HOST') . 'view_global.php?id=', '', $this->urlToBookInformation);
 
         // Guzzle
         $response = $this->httpClient->get($this->urlToBookInformation);
@@ -123,7 +120,7 @@ class Loveread implements ParserInterface
         $book = $builder->getBook();
 
         // Image download
-        (new ImageService(self::LOVEREAD_HOST))->download($book);
+        (new ImageService(env('LOVEREAD_HOST')))->download($book);
 
         return $book;
     }
@@ -137,11 +134,11 @@ class Loveread implements ParserInterface
     {
         $result = [];
         if (!$bookInfo->pages) {
-            $bookInfo->pages = $this->getMaxPageFromPagination(self::LOVEREAD_HOST . $bookInfo->urlToContext);
+            $bookInfo->pages = $this->getMaxPageFromPagination(env('LOVEREAD_HOST') . $bookInfo->urlToContext);
         }
 
         for ($p = 1; $p <= $bookInfo->pages; $p++) {
-            $result[] = $this->getCurrentPageContext(self::LOVEREAD_HOST . 'read_book.php?id=' . $this->bookIdOnLoveared . '&p=' . $p);
+            $result[] = $this->getCurrentPageContext(env('LOVEREAD_HOST') . 'read_book.php?id=' . $this->bookIdOnLoveared . '&p=' . $p);
         }
 
         return $result;

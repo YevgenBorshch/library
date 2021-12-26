@@ -15,6 +15,9 @@ class WatchSeries extends AdminModel
      * @var string[]
      */
     protected $fillable = [
+        'author_id',
+        'series_id',
         'title',
+        'url',
     ];
 }

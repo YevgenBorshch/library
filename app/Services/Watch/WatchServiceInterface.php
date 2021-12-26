@@ -2,7 +2,13 @@
 
 namespace App\Services\Watch;
 
+use App\Models\WatchAuthor;
+
 interface WatchServiceInterface
 {
-    public function run();
+    /**
+     * @param WatchAuthor $author
+     * @return mixed
+     */
+    public function run(WatchAuthor $author);
 }
