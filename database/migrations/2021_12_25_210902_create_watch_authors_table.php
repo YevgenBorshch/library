@@ -17,6 +17,8 @@ class CreateWatchAuthorsTable extends Migration
             $table->id();
             $table->string('firstname');
             $table->string('lastname');
+            $table->text('url');
+            $table->boolean('active');
             $table->timestamps();
         });
     }
