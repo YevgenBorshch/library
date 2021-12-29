@@ -16,6 +16,7 @@ class CreateWatchBooksTable extends Migration
         Schema::create('watch_books', function (Blueprint $table) {
             $table->id();
             $table->integer('author_id');
+            $table->integer('book_id');
             $table->integer('series_id');
             $table->string('title');
             $table->text('url');

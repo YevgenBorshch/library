@@ -15,4 +15,12 @@ class WatchBookRepository extends BaseRepository implements WatchBookRepositoryI
         parent::__construct(WatchBook::class);
     }
 
+    /**
+     * @param int $bookId
+     * @return mixed
+     */
+    public function isExist(int $bookId)
+    {
+        return $this->model::where('book_id', $bookId)->count();
+    }
 }

@@ -9,12 +9,13 @@ class WatchBook extends AdminModel
 {
     use HasFactory, Notifiable;
 
-    protected $table = 'watch_book';
+    protected $table = 'watch_books';
 
     /**
      * @var string[]
      */
     protected $fillable = [
+        'author_id',
         'book_id',
         'series_id',
         'title',

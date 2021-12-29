@@ -2,7 +2,24 @@
 
 namespace App\Services\Watch\Parser\Sites;
 
-class Litres
-{
+use App\Models\WatchAuthor;
+use App\Services\Watch\Parser\ParserInterface;
 
+class Litres implements ParserInterface
+{
+    /**
+     * @param string $url
+     */
+    public function parseAuthorInfo(string $url)
+    {
+        //
+    }
+
+    /**
+     * @param WatchAuthor $author
+     */
+    public function parseBookList(WatchAuthor $author)
+    {
+        //
+    }
 }
