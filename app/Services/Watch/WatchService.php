@@ -10,6 +10,7 @@ use App\Repositories\Interfaces\WatchAuthorRepositoryInterface;
 use App\Repositories\Interfaces\WatchSeriesRepositoryInterface;
 use App\Services\Http\HttpClient;
 use App\Services\Http\HttpClientInterface;
+use Carbon\Carbon;
 use DOMDocument;
 use DOMXPath;
 use GuzzleHttp\Exception\GuzzleException;
@@ -71,11 +72,13 @@ class WatchService implements WatchServiceInterface
 
     /**
      * @param WatchAuthor $author
-     * @return mixed
+     * @return mixed|void
+     * @throws ApiArgumentException
      * @throws GuzzleException
      */
     public function run(WatchAuthor $author)
     {
+        dump('WatchService');
         // Guzzle
         $response = $this->httpClient->get($author->url);
 
@@ -83,7 +86,25 @@ class WatchService implements WatchServiceInterface
         libxml_use_internal_errors(true);
 
         // DOM
-        $crawler = new Crawler($response);
+        $doc = new DOMDocument();
+        $doc->loadHTML($response);
 
+        // DOM XPath
+        $xpath = new DOMXPath($doc);
+
+        $series = $xpath->evaluate('//ul[@class="sr_book"]//li//span//a');
+        foreach ($series as $index => $item) {
+            $seriesId = str_replace('series-books.php?id=', '', $item->getAttribute('href'));
+            if (!$this->seriesRepository->isExist($seriesId)) {
+                $this->seriesRepository->store([
+                    'author_id' => $author->id,
+                    'series_id' => $seriesId,
+                    'title' => $item->getAttribute('title'),
+                    'url' => env('LOVEREAD_HOST') . $item->getAttribute('href'),
+                    'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
+                    'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
+                ]);
+            }
+        }
     }
 }
