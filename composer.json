@@ -18,6 +18,8 @@
         "laravel/tinker": "^2.5",
         "mpdf/mpdf": "^8.0",
         "react/zmq": "^0.4.0",
+        "symfony/css-selector": "^6.0",
+        "symfony/dom-crawler": "^6.0",
         "vladimir-yuldashev/laravel-queue-rabbitmq": "^11.3"
     },
     "require-dev": {
