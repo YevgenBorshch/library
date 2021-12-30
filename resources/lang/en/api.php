@@ -15,5 +15,6 @@ return [
     ],
     'import' => [
         'type' => 'this field "type" is not valid'
-    ]
+    ],
+    'watch.resource' => 'site with this URL do not have handler'
 ];
