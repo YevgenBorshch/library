@@ -3,12 +3,18 @@
 namespace App\Services\Watch;
 
 use App\Models\WatchAuthor;
+use App\Services\Watch\Parser\ParserInterface;
 
 interface WatchServiceInterface
 {
     /**
-     * @param WatchAuthor $author
-     * @return mixed
+     * @param string $url
      */
-    public function run(WatchAuthor $author);
+    public function parseAuthorPage(string $url): void;
+
+    /**
+     * @param WatchAuthor $author
+     * @param ParserInterface $parser
+     */
+    public function run(WatchAuthor $author, ParserInterface $parser): void;
 }

@@ -8,13 +8,11 @@ interface ParserInterface
 {
     /**
      * @param string $url
-     * @return mixed
      */
-    public function parseAuthorInfo(string $url);
+    public function parseAuthorInfo(string $url): void;
 
     /**
      * @param WatchAuthor $author
-     * @return mixed
      */
-    public function parseBookList(WatchAuthor $author);
+    public function parseBookList(WatchAuthor $author): void;
 }

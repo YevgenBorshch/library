@@ -23,7 +23,8 @@ class WatchAuthorRepository extends BaseRepository implements WatchAuthorReposit
      */
     public function getWatchAuthors(int $page = 1, int $limit = 1): Collection
     {
-        return $this->model::limit($limit)
+        return $this->model::where('active', true)
+            ->limit($limit)
             ->offset($page * $limit)
             ->get();
     }

@@ -10,7 +10,7 @@ class Litres implements ParserInterface
     /**
      * @param string $url
      */
-    public function parseAuthorInfo(string $url)
+    public function parseAuthorInfo(string $url): void
     {
         //
     }
@@ -18,7 +18,7 @@ class Litres implements ParserInterface
     /**
      * @param WatchAuthor $author
      */
-    public function parseBookList(WatchAuthor $author)
+    public function parseBookList(WatchAuthor $author): void
     {
         //
     }

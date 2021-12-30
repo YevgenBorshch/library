@@ -22,19 +22,14 @@ class ImportBookController extends Controller
      */
     public function __invoke(Request $request): JsonResponse
     {
-        switch ($request->get('type')) {
-            case "pdf":
-                $job = new ImportFromLovereadInPdfJob(new BookService(), $request);
-                break;
-            case "raw":
-                $job = new ImportFromLovereadInRawJob(new BookService(), $request);
-                break;
-            default:
-                throw new ApiArgumentException(
-                    $this->filterErrorMessage(__METHOD__ . ', ' . trans('api.import.type')),
+        $job = match ($request->get('type')) {
+            'pdf' => new ImportFromLovereadInPdfJob(new BookService(), $request),
+            'raw' => new ImportFromLovereadInRawJob(new BookService(), $request),
+            default => throw new ApiArgumentException(
+                $this->filterErrorMessage(__METHOD__ . ', ' . trans('api.import.type')),
                 'data => ' . json_encode($request->all())
-                );
-        }
+            )
+        };
 
         dispatch($job->onQueue('import'));
 

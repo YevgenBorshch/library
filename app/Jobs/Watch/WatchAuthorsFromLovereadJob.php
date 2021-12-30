@@ -7,8 +7,8 @@ use App\Jobs\Watch\MessageType\Watch;
 use App\Models\WatchAuthor;
 use App\Repositories\Eloquent\WatchAuthorRepository;
 use App\Repositories\Interfaces\WatchAuthorRepositoryInterface;
+use App\Services\Watch\Parser\Sites\Loveread;
 use App\Services\Watch\WatchService;
-use App\Services\Watch\WatchServiceInterface;
 use Exception;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -51,16 +51,11 @@ class WatchAuthorsFromLovereadJob implements ShouldQueue
      */
     public function handle()
     {
-        switch ($this->message->type) {
-            case 'preparation':
-                $this->preparation();
-                break;
-            case 'watch':
-                $this->watch();
-                break;
-            default:
-                throw new Exception('Invalid type of message in watch queue');
-        }
+        match ($this->message->type) {
+            'preparation' => $this->preparation(),
+            'watch' => $this->watch(),
+            default => throw new Exception('Invalid type of message in watch queue')
+        };
     }
 
     protected function preparation()
@@ -81,7 +76,7 @@ class WatchAuthorsFromLovereadJob implements ShouldQueue
     {
         foreach ($this->message->data as $author) {
             $watchService = new WatchService();
-            $watchService->run($author);
+            $watchService->run($author, new Loveread());
         }
     }
 }

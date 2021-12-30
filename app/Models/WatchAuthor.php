@@ -9,6 +9,7 @@ use Illuminate\Notifications\Notifiable;
  * @method static chunk(int $int, \Closure $param)
  * @method static where(string $string, bool $true)
  * @method static count()
+ * @property mixed $id
  */
 class WatchAuthor extends AdminModel
 {
