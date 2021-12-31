@@ -16,11 +16,11 @@ class WatchSeriesRepository extends BaseRepository implements WatchSeriesReposit
     }
 
     /**
-     * @param int $seriesId
-     * @return mixed
+     * @param array $params
+     * @return bool
      */
-    public function isExist(int $seriesId)
+    public function isExist(array $params): bool
     {
-        return $this->model::where('series_id', $seriesId)->count();
+        return $this->model::where($params['column'], $params['value'])->count() > 0;
     }
 }

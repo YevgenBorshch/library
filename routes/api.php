@@ -30,7 +30,7 @@ use App\Http\Controllers\Api\Tag\TagListController;
 use App\Http\Controllers\Api\Tag\TagRemoveController;
 use App\Http\Controllers\Api\Tag\TagStoreController;
 use App\Http\Controllers\Api\Tag\TagUpdateController;
-use App\Http\Controllers\Api\Watch\WatchStoreController;
+use App\Http\Controllers\Api\Watch\WatchAuthorStoreController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -95,7 +95,7 @@ Route::namespace('api')->group(function () {
 
     // Watch
     Route::prefix('/watch')->group(function () {
-        Route::post('/store',   [WatchStoreController::class, '__invoke'])->name('watch.store');
+        Route::post('/store',   [WatchAuthorStoreController::class, '__invoke'])->name('watch.store');
     });
 });
 

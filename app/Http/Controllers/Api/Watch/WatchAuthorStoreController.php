@@ -6,7 +6,7 @@ use App\Jobs\Watch\ParsingWatchAuthorJob;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 
-class WatchStoreController
+class WatchAuthorStoreController
 {
     public function __invoke(Request $request): JsonResponse
     {

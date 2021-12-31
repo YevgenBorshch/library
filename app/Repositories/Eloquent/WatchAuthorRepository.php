@@ -28,4 +28,13 @@ class WatchAuthorRepository extends BaseRepository implements WatchAuthorReposit
             ->offset($page * $limit)
             ->get();
     }
+
+    /**
+     * @param array $params
+     * @return bool
+     */
+    public function isExist(array $params): bool
+    {
+        return $this->model::where($params['column'], $params['value'])->count() > 0;
+    }
 }

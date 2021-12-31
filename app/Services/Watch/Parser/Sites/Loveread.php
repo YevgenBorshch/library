@@ -41,7 +41,10 @@ class Loveread implements ParserInterface
      */
     protected HttpClientInterface $httpClient;
 
-    public array $result;
+    /**
+     * @var array
+     */
+    public array $result = [];
 
     public function __construct()
     {
@@ -120,7 +123,7 @@ class Loveread implements ParserInterface
 
         foreach ($this->result as $item) {
             if ($item->id) {
-                if (!$this->seriesRepository->isExist($item->id)) {
+                if (!$this->seriesRepository->isExist(['column' => 'series_id', 'value' => $item->id])) {
                     $this->seriesRepository->store([
                         'author_id' => $author->id,
                         'series_id' => $item->id,
@@ -134,7 +137,7 @@ class Loveread implements ParserInterface
 
             foreach ($item->books as $book) {
                 if ($book->id) {
-                    if (!$this->bookRepository->isExist($book->id)) {
+                    if (!$this->bookRepository->isExist(['column' => 'book_id', 'value' => $book->id])) {
                         $this->bookRepository->store([
                             'author_id' => $author->id,
                             'book_id' => $book->id,

@@ -16,11 +16,11 @@ class WatchBookRepository extends BaseRepository implements WatchBookRepositoryI
     }
 
     /**
-     * @param int $bookId
-     * @return mixed
+     * @param array $params
+     * @return bool
      */
-    public function isExist(int $bookId)
+    public function isExist(array $params): bool
     {
-        return $this->model::where('book_id', $bookId)->count();
+        return $this->model::where($params['column'], $params['value'])->count() > 0;
     }
 }
