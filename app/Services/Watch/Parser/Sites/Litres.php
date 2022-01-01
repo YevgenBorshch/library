@@ -4,6 +4,7 @@ namespace App\Services\Watch\Parser\Sites;
 
 use App\Exceptions\ApiArgumentException;
 use App\Models\WatchAuthor;
+use App\Notifications\Telegram;
 use App\Repositories\Eloquent\WatchAuthorRepository;
 use App\Repositories\Eloquent\WatchBookRepository;
 use App\Repositories\Eloquent\WatchSeriesRepository;
@@ -17,9 +18,10 @@ use App\ValueObject\WatchBook;
 use App\ValueObject\WatchSeries;
 use Carbon\Carbon;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Notification;
 use Symfony\Component\DomCrawler\Crawler;
 
-class Litres implements ParserInterface
+class Litres extends AbstractMakeMessage implements ParserInterface
 {
     /**
      * @var WatchAuthorRepositoryInterface
@@ -42,7 +44,7 @@ class Litres implements ParserInterface
     protected HttpClientInterface $httpClient;
 
     /**
-     * @var WatchBook[]
+     * @var WatchSeries[]
      */
     public array $result = [];
 
@@ -137,6 +139,7 @@ class Litres implements ParserInterface
             }
         );
 
+        // Series
         foreach ($this->result as $item) {
             if ($item->link) {
                 if (!$this->seriesRepository->isExist(['column' => 'url', 'value' => $item->link])) {
@@ -151,6 +154,7 @@ class Litres implements ParserInterface
                 }
             }
 
+            // Books for current series
             foreach ($item->books as $book) {
                 if ($book->link) {
                     if (!$this->bookRepository->isExist(['column' => 'url', 'value' => $book->link])) {
@@ -163,6 +167,10 @@ class Litres implements ParserInterface
                             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                         ]);
+                        Notification::send(
+                            $this->makeMessage($author, $item, $book),
+                            new Telegram()
+                        );
                     }
                 }
             }

@@ -4,6 +4,7 @@ namespace App\Services\Watch\Parser\Sites;
 
 use App\Exceptions\ApiArgumentException;
 use App\Models\WatchAuthor;
+use App\Notifications\Telegram;
 use App\Repositories\Eloquent\WatchAuthorRepository;
 use App\Repositories\Eloquent\WatchBookRepository;
 use App\Repositories\Eloquent\WatchSeriesRepository;
@@ -17,9 +18,11 @@ use App\ValueObject\WatchBook;
 use App\ValueObject\WatchSeries;
 use Carbon\Carbon;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Notification;
+use stdClass;
 use Symfony\Component\DomCrawler\Crawler;
 
-class Loveread implements ParserInterface
+class Loveread extends AbstractMakeMessage implements ParserInterface
 {
     /**
      * @var WatchAuthorRepositoryInterface
@@ -121,6 +124,7 @@ class Loveread implements ParserInterface
                 $this->result[] = $watchSeries;
             });
 
+        // Series
         foreach ($this->result as $item) {
             if ($item->id) {
                 if (!$this->seriesRepository->isExist(['column' => 'series_id', 'value' => $item->id])) {
@@ -135,6 +139,7 @@ class Loveread implements ParserInterface
                 }
             }
 
+            // Books for current series
             foreach ($item->books as $book) {
                 if ($book->id) {
                     if (!$this->bookRepository->isExist(['column' => 'book_id', 'value' => $book->id])) {
@@ -147,6 +152,10 @@ class Loveread implements ParserInterface
                             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                         ]);
+                        Notification::send(
+                            $this->makeMessage($author, $item, $book),
+                            new Telegram()
+                        );
                     }
                 }
             }
