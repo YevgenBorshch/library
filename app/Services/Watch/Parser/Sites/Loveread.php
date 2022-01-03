@@ -13,16 +13,16 @@ use App\Repositories\Interfaces\WatchBookRepositoryInterface;
 use App\Repositories\Interfaces\WatchSeriesRepositoryInterface;
 use App\Services\Http\HttpClient;
 use App\Services\Http\HttpClientInterface;
+use App\Services\Images\ImageService;
 use App\Services\Watch\Parser\ParserInterface;
 use App\ValueObject\WatchBook;
 use App\ValueObject\WatchSeries;
 use Carbon\Carbon;
 use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Notification;
-use stdClass;
 use Symfony\Component\DomCrawler\Crawler;
 
-class Loveread extends AbstractMakeMessage implements ParserInterface
+class Loveread extends AbstractParser implements ParserInterface
 {
     /**
      * @var WatchAuthorRepositoryInterface
@@ -143,15 +143,18 @@ class Loveread extends AbstractMakeMessage implements ParserInterface
             foreach ($item->books as $book) {
                 if ($book->id) {
                     if (!$this->bookRepository->isExist(['column' => 'book_id', 'value' => $book->id])) {
+                        $book->image = $this->getBookCover($book->link, env('LOVEREAD_HOST'));
                         $this->bookRepository->store([
                             'author_id' => $author->id,
                             'book_id' => $book->id,
                             'series_id' => $item->id,
+                            'image' => $book->image,
                             'title' => $book->title,
                             'url' => $book->link,
                             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
                             'updated_at' => Carbon::now()->format('Y-m-d H:i:s')
                         ]);
+
                         Notification::send(
                             $this->makeMessage($author, $item, $book),
                             new Telegram()
@@ -160,5 +163,27 @@ class Loveread extends AbstractMakeMessage implements ParserInterface
                 }
             }
         }
+    }
+
+    /**
+     * @param string $path
+     * @param string $host
+     * @return string
+     * @throws GuzzleException
+     */
+    public function getBookCover(string $path, string $host): string
+    {
+        // Guzzle
+        $httpClient = new HttpClient();
+        $response = $httpClient->get($path);
+
+        // XML errors
+        libxml_use_internal_errors(true);
+
+        // Crawler
+        $crawler = new Crawler($response);
+        $imageLink = $host . $crawler->filter('.margin-right_8')->attr('src');
+
+        return (new ImageService('loveread'))->getBookCover($imageLink);
     }
 }

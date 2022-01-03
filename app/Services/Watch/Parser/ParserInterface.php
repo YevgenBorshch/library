@@ -15,4 +15,13 @@ interface ParserInterface
      * @param WatchAuthor $author
      */
     public function parseBookList(WatchAuthor $author): void;
+
+
+    /**
+     * @param string $path
+     * @param string $host
+     * @return string
+     */
+    public function getBookCover(string $path, string $host): string;
+
 }

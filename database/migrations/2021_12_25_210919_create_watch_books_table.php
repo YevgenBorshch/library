@@ -18,6 +18,7 @@ class CreateWatchBooksTable extends Migration
             $table->integer('author_id');
             $table->integer('book_id')->nullable();
             $table->integer('series_id')->nullable();
+            $table->string('image');
             $table->string('title');
             $table->text('url');
             $table->timestamps();

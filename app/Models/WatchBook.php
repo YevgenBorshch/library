@@ -18,6 +18,7 @@ class WatchBook extends AdminModel
         'author_id',
         'book_id',
         'series_id',
+        'image',
         'title',
         'url',
     ];

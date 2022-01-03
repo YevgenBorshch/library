@@ -7,7 +7,7 @@ class WatchBook
     /**
      * @var int
      */
-    public int $id = 0;
+    public int $id;
 
     /**
      * @var string
@@ -18,4 +18,9 @@ class WatchBook
      * @var string
      */
     public string $link;
+
+    /**
+     * @var string
+     */
+    public string $image;
 }

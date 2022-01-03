@@ -21,6 +21,11 @@ class Message
     /**
      * @var string
      */
+    public string $bookImage;
+
+    /**
+     * @var string
+     */
     public string $bookTitle;
 
     /**

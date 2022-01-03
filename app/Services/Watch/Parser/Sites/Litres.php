@@ -13,6 +13,7 @@ use App\Repositories\Interfaces\WatchBookRepositoryInterface;
 use App\Repositories\Interfaces\WatchSeriesRepositoryInterface;
 use App\Services\Http\HttpClient;
 use App\Services\Http\HttpClientInterface;
+use App\Services\Images\ImageService;
 use App\Services\Watch\Parser\ParserInterface;
 use App\ValueObject\WatchBook;
 use App\ValueObject\WatchSeries;
@@ -21,7 +22,7 @@ use GuzzleHttp\Exception\GuzzleException;
 use Illuminate\Support\Facades\Notification;
 use Symfony\Component\DomCrawler\Crawler;
 
-class Litres extends AbstractMakeMessage implements ParserInterface
+class Litres extends AbstractParser implements ParserInterface
 {
     /**
      * @var WatchAuthorRepositoryInterface
@@ -145,7 +146,6 @@ class Litres extends AbstractMakeMessage implements ParserInterface
                 if (!$this->seriesRepository->isExist(['column' => 'url', 'value' => $item->link])) {
                     $this->seriesRepository->store([
                         'author_id' => $author->id,
-                        'series_id' => $item->id,
                         'title' => $item->title,
                         'url' => $item->link,
                         'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -158,10 +158,10 @@ class Litres extends AbstractMakeMessage implements ParserInterface
             foreach ($item->books as $book) {
                 if ($book->link) {
                     if (!$this->bookRepository->isExist(['column' => 'url', 'value' => $book->link])) {
+                        $book->image = $this->getBookCover($book->link, env('LITRES_HOST'));
                         $this->bookRepository->store([
                             'author_id' => $author->id,
-                            'book_id' => $book->id,
-                            'series_id' => $item->id,
+                            'image' => $book->image,
                             'title' => $book->title,
                             'url' => $book->link,
                             'created_at' => Carbon::now()->format('Y-m-d H:i:s'),
@@ -175,5 +175,31 @@ class Litres extends AbstractMakeMessage implements ParserInterface
                 }
             }
         }
+    }
+
+    /**
+     * @param string $path
+     * @param string $host
+     * @return string
+     * @throws GuzzleException
+     */
+    public function getBookCover(string $path, string $host): string
+    {
+        // Guzzle
+        $httpClient = new HttpClient();
+        $response = $httpClient->get($path);
+
+        // XML errors
+        libxml_use_internal_errors(true);
+
+        // Crawler
+        $crawler = new Crawler($response);
+        $imageLink = $crawler->filterXpath('//img')
+            ->extract(array('src'));
+        if ($imageLink[1]) {
+            return (new ImageService('litres'))->getBookCover($imageLink[1]);
+        }
+
+        return 'https://library-b40.s3.eu-north-1.amazonaws.com/watch/noimage.png';
     }
 }

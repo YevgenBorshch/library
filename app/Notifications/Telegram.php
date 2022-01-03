@@ -5,6 +5,7 @@ namespace App\Notifications;
 use App\Services\Watch\Notification\Telegram\Message;
 use Illuminate\Bus\Queueable;
 use Illuminate\Notifications\Notification;
+use NotificationChannels\Telegram\TelegramFile;
 use NotificationChannels\Telegram\TelegramMessage;
 
 class Telegram extends Notification
@@ -32,7 +33,7 @@ class Telegram extends Notification
         return ['telegram'];
     }
 
-    public function toTelegram($notifiable): TelegramMessage
+    public function toTelegram($notifiable): TelegramFile
     {
         if ($notifiable instanceof Message) {
             $message = "*Вышла новая книга*\r\nАвтор: $notifiable->author\r\n";
@@ -40,10 +41,11 @@ class Telegram extends Notification
                 $message = $message . "Серия: $notifiable->series\r\n";
             }
             $message = $message . "Название: $notifiable->bookTitle\r\n";
-            return TelegramMessage::create()
+            return TelegramFile::create()
                 ->content("$message")
-                ->button('Подробнее', $notifiable->bookLink);
+                ->file($notifiable->bookImage, 'photo')
+                ->button("Подробнее: ", $notifiable->bookLink);
         }
-        return new TelegramMessage();
+        return new TelegramFile();
     }
 }

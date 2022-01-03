@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Services\Image;
-
+namespace App\Services\Images;
 
 use App\Traits\FileNameGenerate;
 use App\ValueObject\Book;
@@ -9,7 +8,9 @@ use App\ValueObject\Image;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
+use Illuminate\Support\Facades\Storage;
 use Imagick;
+use stdClass;
 
 class ImageService implements ImageInterface
 {
@@ -87,5 +88,54 @@ class ImageService implements ImageInterface
         } catch (Exception $e) {
             throw new Exception($e->getMessage());
         }
+    }
+
+    /**
+     * @param string $path
+     * @return string
+     */
+    public function getUrlAttribute(string $path): string
+    {
+        return Storage::disk('s3')->url($path);
+    }
+
+    /**
+     * @param string $imageLink
+     * @return string
+     * @throws GuzzleException
+     * @throws Exception
+     */
+    public function getBookCover(string $imageLink): string
+    {
+        if (filter_var($imageLink, FILTER_VALIDATE_URL)) {
+            $filename = $this->filename;
+            $response = (new Client())->request(
+                'GET',
+                $imageLink,
+                [
+                    'sink' => '/tmp/' . $filename
+                ]
+            );
+
+            if (200 === $response->getStatusCode()) {
+                try {
+                    $imagick = new Imagick();
+                    $imagick->readImage('/tmp/' . $filename);
+                    $isVertical = $imagick->getImageWidth() < $imagick->getImageHeight();
+
+                    if ($imagick->getImageHeight() > 600 && $imagick->getImageWidth() > 400) {
+                        $imagick->scaleImage(400 * !$isVertical, 600 * $isVertical);
+                    }
+
+                    $path = 'watch/' . $filename . '.' . strtolower($imagick->getImageFormat());
+                    if (Storage::disk('s3')->put($path, $imagick->getImageBlob(), 'public')) {
+                        return $this->getUrlAttribute($path);
+                    }
+                } catch (Exception $e) {
+                    throw new Exception($e->getMessage());
+                }
+            }
+        }
+        return '';
     }
 }
