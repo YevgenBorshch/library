@@ -29,6 +29,7 @@ class Book extends AdminModel
         'pages',
         'readed',
         'source',
+        'source_link',
         'title',
         'type',
         'year',
@@ -72,5 +73,13 @@ class Book extends AdminModel
     public function queue(): HasOne
     {
         return $this->hasOne(Queue::class);
+    }
+
+    /**
+     * @return HasOne
+     */
+    public function image(): HasOne
+    {
+        return $this->hasOne(File::class)->where('image', true);
     }
 }

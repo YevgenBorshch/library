@@ -2,8 +2,10 @@
 
 namespace App\Jobs\Import;
 
+use App\Exceptions\ApiArgumentException;
 use App\Repositories\Eloquent\BookRepository;
 use App\Repositories\Eloquent\ContextRepository;
+use App\Repositories\Eloquent\MessageRepository;
 use App\Services\Import\BookServiceInterface;
 use App\Services\Import\FileType\Raw;
 use App\Services\Import\Parser\Sites\Loveread;
@@ -46,9 +48,7 @@ class ImportFromLovereadInRawJob implements ShouldQueue
     }
 
     /**
-     * Execute the job.
-     *
-     * @return void
+     * @throws ApiArgumentException
      */
     public function handle()
     {
@@ -69,5 +69,10 @@ class ImportFromLovereadInRawJob implements ShouldQueue
             new Raw(new ContextRepository()),
             $book
         );
+        (new MessageRepository())->store([
+            'book_id' => $book->id,
+            'book' => $savedBook,
+            'action' => 'Импорт'
+        ]);
     }
 }

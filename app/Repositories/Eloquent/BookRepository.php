@@ -3,15 +3,22 @@ declare( strict_types = 1 );
 
 namespace App\Repositories\Eloquent;
 
+use App\DTO\ListDTO;
 use App\Exceptions\ApiArgumentException;
 use App\Models\Book;
 use App\Repositories\Interfaces\BookRepositoryInterface;
+use App\Traits\PaginationTrait;
+use App\ValueObject\Book as ValueBook;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Log;
 use stdClass;
+use Symfony\Component\HttpFoundation\Request;
 
 class BookRepository extends BaseRepository implements BookRepositoryInterface
 {
+    use PaginationTrait;
+
     /**
      * BookRepository constructor.
      */
@@ -43,7 +50,8 @@ class BookRepository extends BaseRepository implements BookRepositoryInterface
             $book['description'] = $value['description'];
             $book['pages'] = $value['pages'];
             $book['readed'] = 0;
-            $book['source'] = 0;
+            $book['source'] = $value['source'];
+            $book['source_link'] = $value['source_link'];
             $book['title'] = $value['title'];
             $book['type'] = $value['type'];
             $book['year'] = $value['year'];
@@ -67,6 +75,12 @@ class BookRepository extends BaseRepository implements BookRepositoryInterface
             if (isset($value['image'])) {
                 $this->storeFile((array) $value['image'], $id, 'image');
             }
+
+            $photo = $savedBook->image;
+            $savedBook->image = $photo;
+
+            $authors = $savedBook->authors;
+            $savedBook->authors = $authors;
 
             return $savedBook;
         } catch (\Exception $e) {
@@ -125,5 +139,35 @@ class BookRepository extends BaseRepository implements BookRepositoryInterface
         }
 
         return $authors;
+    }
+
+    public function getImportedBooks(): Collection
+    {
+        return $this->model::where('source', ValueBook::BOOK_IMPORT)->with('authors', 'image')->get();
+    }
+
+    /**
+     * @param string $sourceLink
+     * @return bool
+     */
+    public function isExist(string $sourceLink): bool
+    {
+        return $this->model::where('source_link', $sourceLink)->count() > 0;
+    }
+
+    /**
+     * @param Request $request
+     * @return ListDTO
+     * @throws ApiArgumentException
+     */
+    public function list(Request $request): ListDTO
+    {
+        if ($request->get('all') && $request->get('all') === 'true') {
+            return $this->all();
+        }
+
+        $value = $this->model::with('queue')->get();
+
+        return $this->withPagination($request, $value);
     }
 }

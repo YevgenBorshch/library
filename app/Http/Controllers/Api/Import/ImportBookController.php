@@ -33,6 +33,6 @@ class ImportBookController extends Controller
 
         dispatch($job->onQueue('import'));
 
-        return response()->json([], 201);
+        return response()->json(['message' => trans('api.import.success')], 201);
     }
 }

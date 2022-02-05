@@ -5,7 +5,7 @@ namespace App\Services\Import\Parser\Sites;
 use App\Services\Book\Builder\BookBuilder;
 use App\Services\Http\HttpClient;
 use App\Services\Http\HttpClientInterface;
-use App\Services\Image\ImageService;
+use App\Services\Images\ImageService;
 use App\Services\Import\Parser\ParserInterface;
 use App\ValueObject\Book;
 use DOMDocument;
@@ -115,6 +115,9 @@ class Loveread implements ParserInterface
         $imageDiv = $xpath->evaluate('//img[@class="margin-right_8"]');
         $linkToImage = $imageDiv->item(0)->getAttribute('src');
         $builder->setUrlToImage($linkToImage);
+
+        // Set source
+        $builder->setSource(Book::BOOK_IMPORT);
 
         // Get book
         $book = $builder->getBook();

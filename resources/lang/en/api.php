@@ -14,7 +14,8 @@ return [
         'database_store' => 'error while saving to database'
     ],
     'import' => [
-        'type' => 'this field "type" is not valid'
+        'type' => 'this field "type" is not valid',
+        'success' => 'import successfully. Wait a message about completed'
     ],
     'watch.resource' => 'site with this URL do not have handler'
 ];

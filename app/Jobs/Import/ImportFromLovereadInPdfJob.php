@@ -2,7 +2,9 @@
 
 namespace App\Jobs\Import;
 
+use App\Exceptions\ApiArgumentException;
 use App\Repositories\Eloquent\BookRepository;
+use App\Repositories\Eloquent\MessageRepository;
 use App\Services\Import\BookServiceInterface;
 use App\Services\Import\FileType\PDF;
 use App\Services\Import\Parser\Sites\Loveread;
@@ -48,6 +50,7 @@ class ImportFromLovereadInPdfJob implements ShouldQueue, ShouldBeUnique
      * Execute the job.
      *
      * @return void
+     * @throws ApiArgumentException
      */
     public function handle()
     {
@@ -59,7 +62,12 @@ class ImportFromLovereadInPdfJob implements ShouldQueue, ShouldBeUnique
         $saveToFile = $this->bookService->saveTo(new PDF(), $book);
         if ($saveToFile) {
             unset($book->context);
-            (new BookRepository())->store((array) $book);
+            $savedBook = (new BookRepository())->store((array) $book);
+            (new MessageRepository())->store([
+                'book_id' => $savedBook->id,
+                'book' => $savedBook,
+                'action' => 'Импорт'
+            ]);
         }
     }
 }

@@ -14,12 +14,17 @@ use App\Http\Controllers\Api\Book\BookListController;
 use App\Http\Controllers\Api\Book\BookRemoveController;
 use App\Http\Controllers\Api\Book\BookStoreController;
 use App\Http\Controllers\Api\Book\BookUpdateController;
+use App\Http\Controllers\Api\Browser\BrowserIsExistController;
 use App\Http\Controllers\Api\Category\CategoryGetController;
 use App\Http\Controllers\Api\Category\CategoryListController;
 use App\Http\Controllers\Api\Category\CategoryRemoveController;
 use App\Http\Controllers\Api\Category\CategoryStoreController;
 use App\Http\Controllers\Api\Category\CategoryUpdateController;
 use App\Http\Controllers\Api\Import\ImportBookController;
+use App\Http\Controllers\Api\Import\ImportGetController;
+use App\Http\Controllers\Api\Message\MessageClearController;
+use App\Http\Controllers\Api\Message\MessageGetController;
+use App\Http\Controllers\Api\Queue\QueueGetController;
 use App\Http\Controllers\Api\Series\SeriesGetController;
 use App\Http\Controllers\Api\Series\SeriesListController;
 use App\Http\Controllers\Api\Series\SeriesRemoveController;
@@ -91,11 +96,28 @@ Route::namespace('api')->group(function () {
     });
 
     // Import
+    Route::get('/import/get',   [ImportGetController::class, '__invoke'])->name('import.get');
     Route::post('/import',      [ImportBookController::class, '__invoke'])->name('import.book');
 
     // Watch
     Route::prefix('/watch')->group(function () {
         Route::post('/store',   [WatchAuthorStoreController::class, '__invoke'])->name('watch.store');
+    });
+
+    // Message
+    Route::prefix('/message')->group(function () {
+        Route::get('/get',      [MessageGetController::class, '__invoke'])->name('message.get');
+        Route::post('/clear',   [MessageClearController::class, '__invoke'])->name('message.clear');
+    });
+
+    // Browser extension
+    Route::prefix('/browser')->group(function () {
+        Route::get('/is-exist', [BrowserIsExistController::class, '__invoke'])->name('browser.is-exist');
+    });
+
+    // Queue
+    Route::prefix('/queue')->group(function () {
+        Route::post('/get',     [QueueGetController::class, '__invoke'])->name('queue.get');
     });
 });
 
